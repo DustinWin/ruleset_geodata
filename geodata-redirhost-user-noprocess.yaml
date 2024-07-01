@@ -1,0 +1,38 @@
+mode: rule
+log-level: error
+allow-lan: true
+unified-delay: false
+tcp-concurrent: true
+external-controller-tls: 127.0.0.1:9090
+global-client-fingerprint: chrome
+profile: {store-selected: true}
+
+geodata-mode: true
+geox-url:
+  geosite: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash/geosite.dat"
+  geoip: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash/geoip-lite.dat"
+  mmdb: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash/Country-lite.mmdb"
+geo-auto-update: true
+geo-update-interval: 24
+
+sniffer:
+  enable: true
+  parse-pure-ip: true
+  sniff: {HTTP: {ports: [80, 8080-8880]}, TLS: {ports: [443, 8443]}, QUIC: {ports: [443, 8443]}}
+  skip-domain: ['Mijia Cloud']
+
+dns:
+  enable: true
+  prefer-h3: true
+  ipv6: true
+  listen: 0.0.0.0:1053
+  fake-ip-range: 198.18.0.1/16
+  enhanced-mode: fake-ip
+  fake-ip-filter: ['+.*']
+  nameserver:
+    - https://1.12.12.12/dns-query
+    - https://223.5.5.5/dns-query
+  nameserver-policy:
+    'geosite:ads': rcode://success
+    'geosite:microsoft-cn,apple-cn,google-cn,games-cn,cn,private': [https://1.12.12.12/dns-query, https://223.5.5.5/dns-query]
+    'geosite:proxy': ['https://8.8.8.8/dns-query#🪜 代理域名', 'https://1.1.1.1/dns-query#🪜 代理域名']

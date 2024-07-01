@@ -1,0 +1,31 @@
+mode: rule
+log-level: error
+allow-lan: true
+unified-delay: false
+tcp-concurrent: true
+external-controller-tls: 127.0.0.1:9090
+find-process-mode: strict
+global-client-fingerprint: chrome
+profile: {store-selected: true}
+
+sniffer:
+  enable: true
+  parse-pure-ip: true
+  sniff: {HTTP: {ports: [80, 8080-8880]}, TLS: {ports: [443, 8443]}, QUIC: {ports: [443, 8443]}}
+  skip-domain: ['Mijia Cloud']
+
+dns:
+  enable: true
+  prefer-h3: true
+  ipv6: true
+  listen: 0.0.0.0:1053
+  fake-ip-range: 198.18.0.1/16
+  enhanced-mode: fake-ip
+  fake-ip-filter: ['+.*']
+  nameserver:
+    - https://1.12.12.12/dns-query
+    - https://223.5.5.5/dns-query
+  nameserver-policy:
+    'rule-set:ads': rcode://success
+    'rule-set:microsoft-cn,apple-cn,google-cn,games-cn,cn,private': [https://1.12.12.12/dns-query, https://223.5.5.5/dns-query]
+    'rule-set:proxy': ['https://8.8.8.8/dns-query#🪜 代理域名', 'https://1.1.1.1/dns-query#🪜 代理域名']
