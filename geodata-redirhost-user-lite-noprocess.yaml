@@ -1,0 +1,40 @@
+hosts:
+  'miwifi.com': 192.168.31.1
+
+mode: rule
+log-level: error
+allow-lan: true
+unified-delay: false
+tcp-concurrent: true
+external-controller-tls: 127.0.0.1:9090
+global-client-fingerprint: chrome
+profile: {store-selected: true}
+
+geodata-mode: true
+geox-url:
+  geosite: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash/geosite-lite.dat"
+  geoip: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash/geoip-lite.dat"
+  mmdb: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash/Country-lite.mmdb"
+geo-auto-update: true
+geo-update-interval: 24
+
+sniffer:
+  enable: true
+  parse-pure-ip: true
+  sniff: {HTTP: {ports: [80, 8080-8880]}, TLS: {ports: [443, 8443]}, QUIC: {ports: [443, 8443]}}
+  skip-domain: ['Mijia Cloud']
+
+dns:
+  enable: true
+  prefer-h3: true
+  ipv6: true
+  listen: 0.0.0.0:1053
+  fake-ip-range: 198.18.0.1/16
+  enhanced-mode: fake-ip
+  fake-ip-filter: ['+.*']
+  nameserver:
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+  nameserver-policy:
+    'geosite:proxy': [https://dns.google/dns-query, https://cloudflare-dns.com/dns-query]
+    'geosite:cn': [https://doh.pub/dns-query, https://dns.alidns.com/dns-query]
