@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "domain_keyword": [
+        "ipv6-test",
+        "ipv6test",
+        "speedtest",
+        "test-ipv6",
+        "testipv6"
+      ],
+      "domain_suffix": [
+        "fast.com",
+        "ooklaserver.net",
+        "speed.cloudflare.com",
+        "speed.dler.io"
+      ]
+    }
+  ]
+}
