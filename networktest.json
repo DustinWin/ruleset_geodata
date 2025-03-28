@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain": [
+        "www.speedtest.net.cdn.cloudflare.net"
+      ],
+      "domain_keyword": [
+        "ipv6-test",
+        "ipv6test",
+        "speedtest",
+        "test-ipv6",
+        "testipv6"
+      ],
+      "domain_suffix": [
+        "cdnst.net",
+        "cellmaps.com",
+        "ekahau.cloud",
+        "ekahau.com",
+        "fast.com",
+        "ookla.com",
+        "ooklaserver.net",
+        "pingtest.net",
+        "speed.cloudflare.com",
+        "speed.dler.io",
+        "speedtest.co",
+        "speedtest.net",
+        "speedtestcustom.com",
+        "webtest.net"
+      ]
+    }
+  ]
+}
