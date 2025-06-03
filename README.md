@@ -192,7 +192,7 @@
 <summary>① 导入到 Linux 端（以 <a href="https://github.com/juewuy/ShellCrash">ShellCrash</a> 导入 geosite.dat、geoip.dat、Country.mmdb、geoip.metadb、ASN.mmdb 和 geosite.db、geoip.db 为例）</summary>
 
 连接 SSH 后执行如下命令：
-```
+```shell
 # 适用于 mihomo 内核
 curl -o $CRASHDIR/GeoSite.dat -L https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo/geosite.dat
 curl -o $CRASHDIR/GeoIP.dat -L https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo/geoip.dat
@@ -209,7 +209,7 @@ $CRASHDIR/start.sh restart
 <summary>② 导入到 Windows 端（以 <a href="https://github.com/clash-verge-rev/clash-verge-rev">Clash Verge</a> 导入 geosite.dat、geoip.dat、Country.mmdb、geoip.metadb 和 ASN.mmdb 为例）</summary>
 
 以管理员身份运行 CMD 命令提示符，执行如下命令：
-```
+```shell
 taskkill /f /t /im "Clash Verge*"
 taskkill /f /t /im clash-verge*
 taskkill /f /t /im verge-mihomo*
@@ -227,7 +227,7 @@ curl -o %APPDATA%\io.github.clash-verge-rev.clash-verge-rev\ASN.mmdb -L https://
 
 - 注：以下只是节选，请酌情套用
 
-```
+```yaml
 geodata-mode: true
 geox-url:
   geosite: "https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo/geosite-all.dat"
@@ -281,8 +281,8 @@ rules:
   - GEOSITE,cn,🛡️ 直连域名
   - GEOIP,privateip,🔒 私有网络,no-resolve
   - GEOIP,cn,🀄️ 直连 IP
-  - GEOIP,media,🌍 国外媒体,no-resolve
-  - GEOIP,games,🎮 游戏平台,no-resolve
+  - GEOIP,media,🌍 国外媒体
+  - GEOIP,games,🎮 游戏平台
   - GEOIP,telegram,📲 电报消息,no-resolve
   - MATCH,🐟 漏网之鱼
 ```
@@ -292,7 +292,7 @@ rules:
 
 - 注：以下只是节选，请酌情套用
 
-```
+```yaml
 geodata-mode: true
 geox-url:
   geosite: "https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo/geosite-all.dat"
@@ -346,8 +346,8 @@ rules:
   - GEOSITE,cn,直连域名
   - GEOIP,private,私有网络,no-resolve
   - GEOIP,cn,直连 IP
-  - GEOIP,media,国外媒体,no-resolve
-  - GEOIP,games,游戏平台,no-resolve
+  - GEOIP,media,国外媒体
+  - GEOIP,games,游戏平台
   - GEOIP,telegram,电报消息,no-resolve
 ```
 </details>
@@ -360,7 +360,7 @@ rules:
 <details>
 <summary>展开/收起</summary>
 
-```
+```json
 {
   "outbounds": [
     { "tag": "🚀 节点选择", "type": "selector", "outbounds": [ "🇭🇰 香港节点", "🇹🇼 台湾节点", "🇯🇵 日本节点", "🇸🇬 新加坡节点", "🇺🇸 美国节点" ] },
@@ -405,8 +405,8 @@ rules:
       { "geosite": [ "cn" ], "outbound": "🛡️ 直连域名" },
       { "geoip": [ "private" ], "outbound": "🔒 私有网络", "skip_resolve": true },
       { "geoip": [ "cn" ], "outbound": "🀄️ 直连 IP" },
-      { "geoip": [ "media" ], "outbound": "🌍 国外媒体", "skip_resolve": true },
-      { "geoip": [ "games" ], "outbound": "🎮 游戏平台", "skip_resolve": true },
+      { "geoip": [ "media" ], "outbound": "🌍 国外媒体" },
+      { "geoip": [ "games" ], "outbound": "🎮 游戏平台" },
       { "geoip": [ "telegram" ], "outbound": "📲 电报消息", "skip_resolve": true }
     ],
     "geosite": {
@@ -467,7 +467,7 @@ rules:
 
 - 注：以下只是节选，请酌情套用
 
-```
+```yaml
 proxy-groups:
   - {name: 🚀 节点选择, type: select, proxies: [🇭🇰 香港节点, 🇹🇼 台湾节点, 🇯🇵 日本节点, 🇸🇬 新加坡节点, 🇺🇸 美国节点]}
   - {name: 📈 网络测试, type: select, proxies: [🎯 全球直连, 🇭🇰 香港节点, 🇹🇼 台湾节点, 🇯🇵 日本节点, 🇸🇬 新加坡节点, 🇺🇸 美国节点]}
@@ -801,9 +801,9 @@ rules:
   - RULE-SET,cn,🛡️ 直连域名
   - RULE-SET,privateip,🔒 私有网络,no-resolve
   - RULE-SET,cnip,🀄️ 直连 IP
-  - RULE-SET,netflixip,🎥 奈飞视频,no-resolve
-  - RULE-SET,mediaip,🌍 国外媒体,no-resolve
-  - RULE-SET,gamesip,🎮 游戏平台,no-resolve
+  - RULE-SET,netflixip,🎥 奈飞视频
+  - RULE-SET,mediaip,🌍 国外媒体
+  - RULE-SET,gamesip,🎮 游戏平台
   - RULE-SET,telegramip,📲 电报消息,no-resolve
   - MATCH,🐟 漏网之鱼
 ```
@@ -811,7 +811,7 @@ rules:
 <details>
 <summary>② <code>icon</code> 图标版</summary>
 
-```
+```yaml
 proxy-groups:
   - {name: 节点选择, type: select, proxies: [香港节点, 台湾节点, 日本节点, 新加坡节点, 美国节点], icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/proxy.png"}
   - {name: 网络测试, type: select, proxies: [全球直连, 香港节点, 台湾节点, 日本节点, 新加坡节点, 美国节点], icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/networktest.png"}
@@ -1145,9 +1145,9 @@ rules:
   - RULE-SET,cn,直连域名
   - RULE-SET,privateip,私有网络,no-resolve
   - RULE-SET,cnip,直连 IP
-  - RULE-SET,netflixip,奈飞视频,no-resolve
-  - RULE-SET,mediaip,国外媒体,no-resolve
-  - RULE-SET,gamesip,游戏平台,no-resolve
+  - RULE-SET,netflixip,奈飞视频
+  - RULE-SET,mediaip,国外媒体
+  - RULE-SET,gamesip,游戏平台
   - RULE-SET,telegramip,电报消息,no-resolve
   - MATCH,漏网之鱼
 ```
@@ -1162,7 +1162,7 @@ rules:
 <details>
 <summary>展开/收起</summary>
 
-```
+```json
 {
   "outbounds": [
     { "tag": "🚀 节点选择", "type": "selector", "outbounds": [ "🇭🇰 香港节点", "🇹🇼 台湾节点", "🇯🇵 日本节点", "🇸🇬 新加坡节点", "🇺🇸 美国节点" ] },
@@ -1227,9 +1227,9 @@ rules:
       { "rule_set": [ "cn" ], "outbound": "🛡️ 直连域名" },
       { "rule_set": [ "privateip" ], "outbound": "🔒 私有网络", "skip_resolve": true },
       { "rule_set": [ "cnip" ], "outbound": "🀄️ 直连 IP" },
-      { "rule_set": [ "netflixip" ], "outbound": "🎥 奈飞视频", "skip_resolve": true },
-      { "rule_set": [ "mediaip" ], "outbound": "🌍 国外媒体", "skip_resolve": true },
-      { "rule_set": [ "gamesip" ], "outbound": "🎮 游戏平台", "skip_resolve": true },
+      { "rule_set": [ "netflixip" ], "outbound": "🎥 奈飞视频" },
+      { "rule_set": [ "mediaip" ], "outbound": "🌍 国外媒体" },
+      { "rule_set": [ "gamesip" ], "outbound": "🎮 游戏平台" },
       { "rule_set": [ "telegramip" ], "outbound": "📲 电报消息", "skip_resolve": true }
     ],
     "rule_set": [
