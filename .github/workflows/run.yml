@@ -49,24 +49,25 @@ jobs:
         run: |
           mkdir -p ./community/mydata/
           archs1=(private ads trackerslist microsoft-cn apple-cn google-cn games-cn media games ai networktest tld-proxy proxy cn)
-          archs2=(private ads trackerslist microsoft-cn apple-cn google-cn games-cn ai networktest tld-proxy proxy cn-lite)
+          archs2=(private ads trackerslist microsoft-cn apple-cn google-cn games-cn ai networktest tld-proxy proxy cn)
+          archs3=(private microsoft-cn apple-cn google-cn games-cn tld-proxy proxy cn-lite)
 
           # Generate `mihomo` geosite-all.dat
+          cd ./community/
           for arch1 in "${archs1[@]}"; do
-            curl -sSL "${domains_download_url}/${arch1}.list" | grep -E 'DOMAIN,|DOMAIN-SUFFIX,|DOMAIN-KEYWORD' | sed -e 's/DOMAIN,/full:/' -e 's/DOMAIN-SUFFIX,//' -e 's/DOMAIN-KEYWORD,/keyword:/' > "./community/mydata/${arch1}"
+            curl -sSL "${domains_download_url}/${arch1}.list" | grep -E 'DOMAIN,|DOMAIN-SUFFIX,|DOMAIN-KEYWORD' | sed -e 's/DOMAIN,/full:/' -e 's/DOMAIN-SUFFIX,//' -e 's/DOMAIN-KEYWORD,/keyword:/' > "./mydata/${arch1}"
           done
-          curl -sSL "${domains_download_url}/fakeip-filter.list" | sed -e 's/DOMAIN,/full:/' -e 's/DOMAIN-SUFFIX,//' -e 's/DOMAIN-KEYWORD,/keyword:/' -e 's/DOMAIN-REGEX,/regexp:/' > ./community/mydata/fakeip-filter
-          curl -sSL "${domains_download_url}/fakeip-filter-lite.list" | grep -Ev 'DOMAIN-REGEX,|ntp|time|stun' | sed -e 's/DOMAIN,/full:/' -e 's/DOMAIN-SUFFIX,//' > ./community/mydata/fakeip-filter-lite
-          cat <<EOF >> ./community/mydata/fakeip-filter-lite
+          curl -sSL "${domains_download_url}/fakeip-filter.list" | sed -e 's/DOMAIN,/full:/' -e 's/DOMAIN-SUFFIX,//' -e 's/DOMAIN-KEYWORD,/keyword:/' -e 's/DOMAIN-REGEX,/regexp:/' > ./mydata/fakeip-filter
+          go run ./ --datapath=./mydata/ --outputname geosite-all.dat
+
+          # Generate `mihomo` geosite-all-lite.dat
+          rm -f ./mydata/ads ./mydata/fakeip-filter
+          curl -sSL "${domains_download_url}/fakeip-filter-lite.list" | grep -Ev 'DOMAIN-REGEX,|ntp|time|stun' | sed -e 's/DOMAIN,/full:/' -e 's/DOMAIN-SUFFIX,//' > ./mydata/fakeip-filter-lite
+          cat <<EOF >> ./mydata/fakeip-filter-lite
           keyword:ntp
           keyword:time
           keyword:stun
           EOF
-          cd ./community/
-          go run ./ --datapath=./mydata/ --outputname geosite-all.dat
-
-          # Generate `mihomo` geosite-all-lite.dat
-          rm -f ./mydata/ads
           go run ./ --datapath=./mydata/ --outputname geosite-all-lite.dat
 
           # Generate `mihomo` geosite.dat
@@ -74,19 +75,27 @@ jobs:
           for arch2 in "${archs2[@]}"; do
             curl -sSL "${domains_download_url}/${arch2}.list" | grep -E 'DOMAIN,|DOMAIN-SUFFIX,|DOMAIN-KEYWORD' | sed -e 's/DOMAIN,/full:/' -e 's/DOMAIN-SUFFIX,//' -e 's/DOMAIN-KEYWORD,/keyword:/' > "./mydata/${arch2}"
           done
-          mv -f ./mydata/cn-lite ./mydata/cn
           curl -sSL "${domains_download_url}/fakeip-filter.list" | sed -e 's/DOMAIN,/full:/' -e 's/DOMAIN-SUFFIX,//' -e 's/DOMAIN-KEYWORD,/keyword:/' -e 's/DOMAIN-REGEX,/regexp:/' > ./mydata/fakeip-filter
+          go run ./ --datapath=./mydata/ --outputname geosite.dat
+
+          # Generate `mihomo` geosite-lite.dat
+          rm -f ./mydata/ads ./mydata/fakeip-filter
           curl -sSL "${domains_download_url}/fakeip-filter-lite.list" | grep -Ev 'DOMAIN-REGEX,|ntp|time|stun' | sed -e 's/DOMAIN,/full:/' -e 's/DOMAIN-SUFFIX,//' > ./mydata/fakeip-filter-lite
           cat <<EOF >> ./mydata/fakeip-filter-lite
           keyword:ntp
           keyword:time
           keyword:stun
           EOF
-          go run ./ --datapath=./mydata/ --outputname geosite.dat
-
-          # Generate `mihomo` geosite-lite.dat
-          rm -f ./mydata/ads
           go run ./ --datapath=./mydata/ --outputname geosite-lite.dat
+
+          # Generate `mihomo` geosite-mini.dat
+          rm -f ./mydata/*
+          for arch3 in "${archs3[@]}"; do
+            curl -sSL "${domains_download_url}/${arch3}.list" | grep -E 'DOMAIN,|DOMAIN-SUFFIX,|DOMAIN-KEYWORD' | sed -e 's/DOMAIN,/full:/' -e 's/DOMAIN-SUFFIX,//' -e 's/DOMAIN-KEYWORD,/keyword:/' > "./mydata/${arch3}"
+          done
+          mv -f ./mydata/cn-lite ./mydata/cn
+          curl -sSL "${domains_download_url}/fakeip-filter.list" | sed -e 's/DOMAIN,/full:/' -e 's/DOMAIN-SUFFIX,//' -e 's/DOMAIN-KEYWORD,/keyword:/' -e 's/DOMAIN-REGEX,/regexp:/' > ./mydata/fakeip-filter
+          go run ./ --datapath=./mydata/ --outputname geosite-mini.dat
 
       - name: Generate `sing-box` geodata
         run: |

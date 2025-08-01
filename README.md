@@ -42,59 +42,73 @@
   </tr>
   <tr>
     <td>geosite-all.dat</td>
-    <td><code>fakeip-filter</code>、<code>fakeip-filter-lite</code>、<code>private</code>、<code>ads</code>、<code>trackerslist</code>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<code>media</code>、<code>games</code>、<code>ai</code>、<code>networktest</code>、<code>tld-proxy</code>、<code>proxy</code> 和 <code>cn</code></td>
+    <td><code>fakeip-filter</code>、<del><code>fakeip-filter-lite</code></del>、<code>private</code>、<code>ads</code>、<code>trackerslist</code>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<code>media</code>、<code>games</code>、<code>ai</code>、<code>networktest</code>、<code>tld-proxy</code>、<code>proxy</code> 和 <code>cn</code></td>
     <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo/geosite-all.dat">点此下载</a></td>
     <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo/geosite-all.dat">点此下载</a></td>
     <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo/geosite-all.dat">点此下载</a></td>
   </tr>
   <tr>
     <td>geosite-all.db</td>
-    <td><code>fakeip-filter</code>、<code>fakeip-filter-lite</code>、<code>private</code>、<code>ads</code>、<code>trackerslist</code>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<code>media</code>、<code>games</code>、<code>ai</code>、<code>networktest</code>、<code>tld-proxy</code>、<code>proxy</code> 和 <code>cn</code></td>
+    <td><code>fakeip-filter</code>、<del><code>fakeip-filter-lite</code></del>、<code>private</code>、<code>ads</code>、<code>trackerslist</code>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<code>media</code>、<code>games</code>、<code>ai</code>、<code>networktest</code>、<code>tld-proxy</code>、<code>proxy</code> 和 <code>cn</code></td>
     <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box/geosite-all.db">点此下载</a></td>
     <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box/geosite-all.db">点此下载</a></td>
     <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box/geosite-all.db">点此下载</a></td>
   </tr>
   <tr>
     <td>geosite-all-lite.dat</td>
-    <td><code>fakeip-filter</code>、<code>fakeip-filter-lite</code>、<code>private</code>、<del><code>ads</code></del>、<code>trackerslist</code>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<code>media</code>、<code>games</code>、<code>ai</code>、<code>networktest</code>、<code>tld-proxy</code>、<code>proxy</code> 和 <code>cn</code></td>
+    <td><del><code>fakeip-filter</code></del>、<code>fakeip-filter-lite</code>、<code>private</code>、<del><code>ads</code></del>、<code>trackerslist</code>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<code>media</code>、<code>games</code>、<code>ai</code>、<code>networktest</code>、<code>tld-proxy</code>、<code>proxy</code> 和 <code>cn</code></td>
     <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo/geosite-all-lite.dat">点此下载</a></td>
     <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo/geosite-all-lite.dat">点此下载</a></td>
     <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo/geosite-all-lite.dat">点此下载</a></td>
   </tr>
   <tr>
     <td>geosite-all-lite.db</td>
-    <td><code>fakeip-filter</code>、<code>fakeip-filter-lite</code>、<code>private</code>、<del><code>ads</code></del>、<code>trackerslist</code>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<code>media</code>、<code>games</code>、<code>ai</code>、<code>networktest</code>、<code>tld-proxy</code>、<code>proxy</code> 和 <code>cn</code></td>
+    <td><del><code>fakeip-filter</code></del>、<code>fakeip-filter-lite</code>、<code>private</code>、<del><code>ads</code></del>、<code>trackerslist</code>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<code>media</code>、<code>games</code>、<code>ai</code>、<code>networktest</code>、<code>tld-proxy</code>、<code>proxy</code> 和 <code>cn</code></td>
     <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box/geosite-all-lite.db">点此下载</a></td>
     <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box/geosite-all-lite.db">点此下载</a></td>
     <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box/geosite-all-lite.db">点此下载</a></td>
   </tr>
   <tr>
     <td>geosite.dat</td>
-    <td><code>fakeip-filter</code>、<code>fakeip-filter-lite</code>、<code>private</code>、<code>ads</code>、<code>trackerslist</code>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<del><code>media</code></del>、<del><code>games</code></del>、<code>ai</code>、<code>networktest</code>、<code>tld-proxy</code>、<code>proxy</code> 和 <code>cn</code>（精简版）</td>
+    <td><code>fakeip-filter</code>、<del><code>fakeip-filter-lite</code></del>、<code>private</code>、<code>ads</code>、<code>trackerslist</code>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<del><code>media</code>、<code>games</code></del>、<code>ai</code>、<code>networktest</code>、<code>tld-proxy</code>、<code>proxy</code> 和 <code>cn</code></td>
     <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo/geosite.dat">点此下载</a></td>
     <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo/geosite.dat">点此下载</a></td>
     <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo/geosite.dat">点此下载</a></td>
   </tr>
   <tr>
     <td>geosite.db</td>
-    <td><code>fakeip-filter</code>、<code>fakeip-filter-lite</code>、<code>private</code>、<code>ads</code>、<code>trackerslist</code>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<del><code>media</code></del>、<del><code>games</code></del>、<code>ai</code>、<code>networktest</code>、<code>tld-proxy</code>、<code>proxy</code> 和 <code>cn</code>（精简版）</td>
+    <td><code>fakeip-filter</code>、<del><code>fakeip-filter-lite</code></del>、<code>private</code>、<code>ads</code>、<code>trackerslist</code>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<del><code>media</code>、<code>games</code></del>、<code>ai</code>、<code>networktest</code>、<code>tld-proxy</code>、<code>proxy</code> 和 <code>cn</code></td>
     <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box/geosite.db">点此下载</a></td>
     <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box/geosite.db">点此下载</a></td>
     <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box/geosite.db">点此下载</a></td>
   </tr>
   <tr>
     <td>geosite-lite.dat</td>
-    <td><code>fakeip-filter</code>、<code>fakeip-filter-lite</code>、<code>private</code>、<del><code>ads</code></del>、<code>trackerslist</code>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<del><code>media</code></del>、<del><code>games</code></del>、<code>ai</code>、<code>networktest</code>、<code>tld-proxy</code>、<code>proxy</code> 和 <code>cn</code>（精简版）</td>
+    <td><del><code>fakeip-filter</code></del>、<code>fakeip-filter-lite</code>、<code>private</code>、<del><code>ads</code></del>、<code>trackerslist</code>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<del><code>media</code>、<code>games</code></del>、<code>ai</code>、<code>networktest</code>、<code>tld-proxy</code>、<code>proxy</code> 和 <code>cn</code></td>
     <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo/geosite-lite.dat">点此下载</a></td>
     <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo/geosite-lite.dat">点此下载</a></td>
     <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo/geosite-lite.dat">点此下载</a></td>
   </tr>
   <tr>
     <td>geosite-lite.db</td>
-    <td><code>fakeip-filter</code>、<code>fakeip-filter-lite</code>、<code>private</code>、<del><code>ads</code></del>、<code>trackerslist</code>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<del><code>media</code></del>、<del><code>games</code></del>、<code>ai</code>、<code>networktest</code>、<code>tld-proxy</code>、<code>proxy</code> 和 <code>cn</code>（精简版）</td>
+    <td><del><code>fakeip-filter</code></del>、<code>fakeip-filter-lite</code>、<code>private</code>、<del><code>ads</code></del>、<code>trackerslist</code>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<del><code>media</code>、<code>games</code></del>、<code>ai</code>、<code>networktest</code>、<code>tld-proxy</code>、<code>proxy</code> 和 <code>cn</code></td>
     <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box/geosite-lite.db">点此下载</a></td>
     <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box/geosite-lite.db">点此下载</a></td>
     <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box/geosite-lite.db">点此下载</a></td>
+  </tr>
+  <tr>
+    <td>geosite-mini.dat</td>
+    <td><code>fakeip-filter</code>、<del><code>fakeip-filter-lite</code></del>、<code>private</code>、<del><code>ads</code>、<code>trackerslist</code></del>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<del><code>media</code>、<code>games</code>、<code>ai</code>、<code>networktest</code></del>、<code>tld-proxy</code>、<code>proxy</code> 和 <code>cn</code>（精简版）</td>
+    <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo/geosite-lite.dat">点此下载</a></td>
+    <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo/geosite-lite.dat">点此下载</a></td>
+    <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo/geosite-lite.dat">点此下载</a></td>
+  </tr>
+  <tr>
+    <td>geosite-mini.db</td>
+    <td><code>fakeip-filter</code>、<del><code>fakeip-filter-lite</code></del>、<code>private</code>、<del><code>ads</code>、<code>trackerslist</code></del>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<del><code>media</code>、<code>games</code>、<code>ai</code>、<code>networktest</code></del>、<code>tld-proxy</code>、<code>proxy</code> 和 <code>cn</code>（精简版）</td>
+    <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box/geosite-mini.db">点此下载</a></td>
+    <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box/geosite-mini.db">点此下载</a></td>
+    <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box/geosite-mini.db">点此下载</a></td>
   </tr>
   <tr>
     <td>geoip-all.dat</td>
@@ -155,7 +169,7 @@
   </tr>
   <tr>
     <td>geoip-lite.dat</td>
-    <td rowspan="4"><code>private</code>、<code>cn</code>、<del><code>media</code></del>、<del><code>games</code></del> 和 <code>telegram</code></td>
+    <td rowspan="4"><code>private</code>、<code>cn</code>、<del><code>media</code>、<code>games</code></del> 和 <code>telegram</code></td>
     <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo/geoip-lite.dat">点此下载</a></td>
     <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo/geoip-lite.dat">点此下载</a></td>
     <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo/geoip-lite.dat">点此下载</a></td>
@@ -1481,4 +1495,4 @@ rules:
 
 # 机场推荐
 [Bitz Net](https://new.bnaffloop.com/#/register?code=HT0ALWZq)（仅次于一线机场，推荐打折时购买）  
-88 折优惠码：`512025`（有效期至 2025 年 5 月 2 日 23:59 分）
+75 折优惠码：`2025DOWN75`（有效期至 2025 年 8 月 30 日）
