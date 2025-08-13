@@ -15,7 +15,7 @@ jobs:
     if: ${{ github.event.repository.fork }}
     steps:
       - name: Checkout target repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Sync upstream changes
         id: sync
