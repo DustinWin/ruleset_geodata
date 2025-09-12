@@ -1,0 +1,62 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain": [
+        "hk-global-bgp.hkg.speedtest.yecaoyun.com",
+        "www.speedtest.net.cdn.cloudflare.net"
+      ],
+      "domain_keyword": [
+        "ipv6-test",
+        "ipv6test",
+        "speedtest",
+        "test-ipv6",
+        "testipv6"
+      ],
+      "domain_suffix": [
+        "cdnst.net",
+        "cellmaps.com",
+        "cnspeedtest.cn",
+        "ekahau.cloud",
+        "ekahau.com",
+        "fast.com",
+        "measurementlab.net",
+        "nperf.com",
+        "ookla.com",
+        "ooklaserver.net",
+        "open.cachefly.net",
+        "openspeedtest.com",
+        "pingtest.net",
+        "speed.cloudflare.com",
+        "speed.dler.io",
+        "speed.hinet.net",
+        "speed.nccu.edu.tw",
+        "speed.neu6.edu.cn",
+        "speed.nju.edu.cn",
+        "speed.nuaa.edu.cn",
+        "speed.qlu.edu.cn",
+        "speed.ujs.edu.cn",
+        "speed2.hinet.net",
+        "speed5.ntu.edu.tw",
+        "speed6.ujs.edu.cn",
+        "speedtest.cn",
+        "speedtest.co",
+        "speedtest.im",
+        "speedtest.mfcyun.com",
+        "speedtest.net",
+        "speedtest.shu.edu.cn",
+        "speedtest.xaut.edu.cn",
+        "speedtest.xfinity.com",
+        "speedtest6.shu.edu.cn",
+        "speedtestcustom.com",
+        "test.nju.edu.cn",
+        "test.ustc.edu.cn",
+        "test6.nju.edu.cn",
+        "test6.ustc.edu.cn",
+        "testmy.net",
+        "webtest.net",
+        "xnfz.seu.edu.cn"
+      ]
+    }
+  ]
+}
