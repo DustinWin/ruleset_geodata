@@ -234,7 +234,7 @@ jobs:
 
       - name: Generate `mihomo` rule-set (mrs) and move .list files
         run: |
-          wget https://github.com/DustinWin/proxy-tools/releases/download/mihomo/mihomo-meta-linux-amd64.tar.gz -O - | tar -zxf - -C ./tools/
+          wget https://github.com/DustinWin/proxy-tools/releases/download/mihomo/mihomo-meta-linux-amd64v3.tar.gz -O - | tar -zxf - -C ./tools/
           mv -f ./tools/CrashCore ./tools/mihomo
 
           cd ./tools/
