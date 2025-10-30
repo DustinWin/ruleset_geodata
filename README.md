@@ -100,9 +100,9 @@
   <tr>
     <td>geosite-mini.dat</td>
     <td><del><code>fakeip-filter</code>、<code>fakeip-filter-lite</code></del>、<code>private</code>、<del><code>ads</code>、<code>trackerslist</code></del>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<del><code>media</code>、<code>games</code>、<code>ai</code>、<code>networktest</code></del>、<code>tld-proxy</code>、<code>gfw</code>、<del><code>proxy</code></del> 和 <code>cn</code>（精简版）</td>
-    <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-geodata/geosite-lite.dat">点此下载</a></td>
-    <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-geodata/geosite-lite.dat">点此下载</a></td>
-    <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-geodata/geosite-lite.dat">点此下载</a></td>
+    <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-geodata/geosite-mini.dat">点此下载</a></td>
+    <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-geodata/geosite-mini.dat">点此下载</a></td>
+    <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-geodata/geosite-mini.dat">点此下载</a></td>
   </tr>
   <tr>
     <td>geosite-mini.db</td>
