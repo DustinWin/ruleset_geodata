@@ -1,0 +1,49 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain": [
+        "lf16-effectcdn.byteeffecttos-g.com",
+        "lf16-pkgcdn.pitaya-clientai.com",
+        "p16-tiktokcdn-com.akamaized.net",
+        "trae-api-sg.mchost.guru"
+      ],
+      "domain_suffix": [
+        "bytedapm.com",
+        "bytegecko-i18n.com",
+        "byteintlapi.com",
+        "byteoversea.com",
+        "capcut.com",
+        "ibytedtos.com",
+        "ibyteimg.com",
+        "ipstatp.com",
+        "isnssdk.com",
+        "marscode.com",
+        "muscdn.com",
+        "musical.ly",
+        "sgpstatp.com",
+        "snssdk.com",
+        "tik-tokapi.com",
+        "tiktok.com",
+        "tiktokcdn-eu.com",
+        "tiktokcdn-us.com",
+        "tiktokcdn.com",
+        "tiktokd.net",
+        "tiktokd.org",
+        "tiktokeu-cdn.com",
+        "tiktokmusic.app",
+        "tiktokrow-cdn.com",
+        "tiktokv.com",
+        "tiktokv.eu",
+        "tiktokv.us",
+        "tiktokw.eu",
+        "tiktokw.us",
+        "trae.ai",
+        "ttlivecdn.com",
+        "ttoverseaus.net",
+        "ttwebview.com",
+        "ttwstatic.com"
+      ]
+    }
+  ]
+}
