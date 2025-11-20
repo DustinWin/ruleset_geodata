@@ -29,16 +29,16 @@ jobs:
         shell: bash
 
       - name: Clone Repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Checkout DustinWin/domain-list-custom
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: DustinWin/domain-list-custom
           path: custom
 
       - name: Checkout v2fly/domain-list-community
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: v2fly/domain-list-community
           path: community
