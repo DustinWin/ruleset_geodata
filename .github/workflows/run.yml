@@ -1,44 +1,40 @@
-name: Build V2Ray rules dat files
+name: Build ruleset and geodata
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 22 * * *"
+    - cron: "0 19 * * *"
   push:
     branches:
       - master
     paths-ignore:
       - "**/README.md"
+      - "**/*.ini"
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Set variables
         run: |
-          echo "RELEASE_NAME=Released on $(date +%Y%m%d%H%M)" >> $GITHUB_ENV
-          echo "TAG_NAME=$(date +%Y%m%d%H%M)" >> $GITHUB_ENV
-          echo "CHINA_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/accelerated-domains.china.conf" >> $GITHUB_ENV
-          echo "GOOGLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/google.china.conf" >> $GITHUB_ENV
-          echo "APPLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/apple.china.conf" >> $GITHUB_ENV
-          echo "EASYLISTCHINA_EASYLIST_REJECT_URL=https://easylist-downloads.adblockplus.org/easylistchina+easylist.txt" >> $GITHUB_ENV
-          echo "PETERLOWE_REJECT_URL=https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=1&mimetype=plaintext" >> $GITHUB_ENV
-          echo "ADGUARD_DNS_REJECT_URL=https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt" >> $GITHUB_ENV
-          echo "DANPOLLOCK_REJECT_URL=https://someonewhocares.org/hosts/hosts" >> $GITHUB_ENV
-          echo "CUSTOM_DIRECT=https://raw.githubusercontent.com/Loyalsoldier/domain-list-custom/release/cn.txt" >> $GITHUB_ENV
-          echo "CUSTOM_PROXY=https://raw.githubusercontent.com/Loyalsoldier/domain-list-custom/release/geolocation-!cn.txt" >> $GITHUB_ENV
-          echo "WIN_SPY=https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt" >> $GITHUB_ENV
-          echo "WIN_UPDATE=https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/update.txt" >> $GITHUB_ENV
-          echo "WIN_EXTRA=https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/extra.txt" >> $GITHUB_ENV
+          echo "update_version=$(date -d '+8 hours' +%Y-%m-%d)" >> ${GITHUB_ENV}
+          echo "singbox_core_release_version=$(curl -sSL https://api.github.com/repos/SagerNet/sing-box/releases/latest | jq -r '.tag_name' | sed -E 's/([0-9]+)$/0/')" >> ${GITHUB_ENV}
+          echo "singbox_core_last1_version=$(curl -sSL https://raw.githubusercontent.com/SagerNet/sing-box/docs/configuration/rule-set/source-format/index.html | awk '/<li>/ {last=$0} END {print last}' | sed -n 's/.*\([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p')" >> ${GITHUB_ENV}
+          echo "singbox_core_last2_version=$(curl -sSL https://raw.githubusercontent.com/SagerNet/sing-box/docs/configuration/rule-set/source-format/index.html | awk '/<li>/{lines[++count]=$0} END{print lines[count-1]}' | sed -n 's/.*\([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p')" >> ${GITHUB_ENV}
+          echo "singbox_core_last3_version=$(curl -sSL https://raw.githubusercontent.com/SagerNet/sing-box/docs/configuration/rule-set/source-format/index.html | awk '/<li>/{lines[++count]=$0} END{print lines[count-2]}' | sed -n 's/.*\([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p')" >> ${GITHUB_ENV}
+          echo "singbox_rules_last1_version=$(curl -sSL https://raw.githubusercontent.com/SagerNet/sing-box/docs/configuration/rule-set/source-format/index.html | awk '/<li>/ {last=$0} END {print last}' | sed -n 's/^<li>\([0-9]\+\).*/\1/p')" >> ${GITHUB_ENV}
+          echo "singbox_rules_last2_version=$(curl -sSL https://raw.githubusercontent.com/SagerNet/sing-box/docs/configuration/rule-set/source-format/index.html | awk '/<li>/{lines[++count]=$0} END{print lines[count-1]}' | sed -n 's/^<li>\([0-9]\+\).*/\1/p')" >> ${GITHUB_ENV}
+          echo "singbox_rules_last3_version=$(curl -sSL https://raw.githubusercontent.com/SagerNet/sing-box/docs/configuration/rule-set/source-format/index.html | awk '/<li>/{lines[++count]=$0} END{print lines[count-2]}' | sed -n 's/^<li>\([0-9]\+\).*/\1/p')" >> ${GITHUB_ENV}
+          echo "domains_download_url=https://github.com/DustinWin/domain-list-custom/releases/download/domains" >> ${GITHUB_ENV}
+          echo "ips_download_url=https://github.com/DustinWin/geoip/releases/download/ips" >> ${GITHUB_ENV}
         shell: bash
 
-      - name: Checkout the "hidden" branch of this repo
+      - name: Clone Repository
         uses: actions/checkout@v6
-        with:
-          ref: hidden
 
-      - name: Checkout Loyalsoldier/domain-list-custom
+      - name: Checkout DustinWin/domain-list-custom
         uses: actions/checkout@v6
         with:
-          repository: Loyalsoldier/domain-list-custom
+          repository: DustinWin/domain-list-custom
           path: custom
 
       - name: Checkout v2fly/domain-list-community
@@ -47,165 +43,434 @@ jobs:
           repository: v2fly/domain-list-community
           path: community
 
-      - name: Checkout cokebar/gfwlist2dnsmasq
-        uses: actions/checkout@v6
-        with:
-          repository: cokebar/gfwlist2dnsmasq
-          path: gfwlist2dnsmasq
-
       - name: Setup Go
         uses: actions/setup-go@v6
         with:
           go-version-file: ./custom/go.mod
           cache-dependency-path: ./custom/go.sum
 
-      - name: Get geoip.dat relative files
+      - name: Generate `mihomo` geodata
         run: |
-          wget https://github.com/Loyalsoldier/geoip/raw/release/geoip.dat
-          wget https://github.com/Loyalsoldier/geoip/raw/release/geoip.dat.sha256sum
+          mkdir -p ./community/mydata/
+          archs1=(private ads trackerslist microsoft-cn apple-cn google-cn games-cn media games ai networktest tld-proxy gfw proxy cn)
+          archs2=(private ads trackerslist microsoft-cn apple-cn google-cn games-cn ai networktest tld-proxy gfw proxy cn)
+          archs3=(private microsoft-cn apple-cn google-cn games-cn tld-proxy gfw cn-lite)
 
-      - name: Generate GFWList domains
+          # Generate `mihomo` geosite-all.dat
+          cd ./community/
+          for arch1 in "${archs1[@]}"; do
+            curl -sSL "${domains_download_url}/${arch1}.list" | sed -e 's/DOMAIN,/full:/' -e 's/DOMAIN-SUFFIX,//' -e 's/DOMAIN-KEYWORD,/keyword:/' -e 's/DOMAIN-REGEX,/regexp:/' > "./mydata/${arch1}"
+          done
+          curl -sSL "${domains_download_url}/fakeip-filter.list" | awk '!/^DOMAIN-REGEX,/' | sed -e 's/DOMAIN,/full:/' -e 's/DOMAIN-SUFFIX,//' > ./mydata/fakeip-filter
+          cat <<EOF >> ./mydata/fakeip-filter
+          keyword:ntp
+          keyword:stun
+          keyword:time
+          EOF
+          curl -sSL "${domains_download_url}/fakeip-filter.list" | awk '/^DOMAIN-REGEX,/ && !/ntp|stun|time/' | sed 's/DOMAIN-REGEX,/regexp:/' >> ./mydata/fakeip-filter
+          go run ./ --datapath=./mydata/ --outputname geosite-all.dat
+
+          # Generate `mihomo` geosite-all-lite.dat
+          rm -f ./mydata/ads ./mydata/fakeip-filter
+          curl -sSL "${domains_download_url}/fakeip-filter-lite.list" | awk '!/^DOMAIN-REGEX,/' | sed -e 's/DOMAIN,/full:/' -e 's/DOMAIN-SUFFIX,//' > ./mydata/fakeip-filter-lite
+          cat <<EOF >> ./mydata/fakeip-filter-lite
+          keyword:ntp
+          keyword:stun
+          keyword:time
+          EOF
+          go run ./ --datapath=./mydata/ --outputname geosite-all-lite.dat
+
+          # Generate `mihomo` geosite.dat
+          rm -f ./mydata/*
+          for arch2 in "${archs2[@]}"; do
+            curl -sSL "${domains_download_url}/${arch2}.list" | sed -e 's/DOMAIN,/full:/' -e 's/DOMAIN-SUFFIX,//' -e 's/DOMAIN-KEYWORD,/keyword:/' -e 's/DOMAIN-REGEX,/regexp:/' > "./mydata/${arch2}"
+          done
+          curl -sSL "${domains_download_url}/fakeip-filter.list" | awk '!/^DOMAIN-REGEX,/' | sed -e 's/DOMAIN,/full:/' -e 's/DOMAIN-SUFFIX,//' > ./mydata/fakeip-filter
+          cat <<EOF >> ./mydata/fakeip-filter
+          keyword:ntp
+          keyword:stun
+          keyword:time
+          EOF
+          curl -sSL "${domains_download_url}/fakeip-filter.list" | awk '/^DOMAIN-REGEX,/ && !/ntp|stun|time/' | sed 's/DOMAIN-REGEX,/regexp:/' >> ./mydata/fakeip-filter
+          go run ./ --datapath=./mydata/ --outputname geosite.dat
+
+          # Generate `mihomo` geosite-lite.dat
+          rm -f ./mydata/ads ./mydata/fakeip-filter
+          curl -sSL "${domains_download_url}/fakeip-filter-lite.list" | awk '!/^DOMAIN-REGEX,/' | sed -e 's/DOMAIN,/full:/' -e 's/DOMAIN-SUFFIX,//' > ./mydata/fakeip-filter-lite
+          cat <<EOF >> ./mydata/fakeip-filter-lite
+          keyword:ntp
+          keyword:time
+          keyword:stun
+          EOF
+          go run ./ --datapath=./mydata/ --outputname geosite-lite.dat
+
+          # Generate `mihomo` geosite-mini.dat
+          rm -f ./mydata/*
+          for arch3 in "${archs3[@]}"; do
+            curl -sSL "${domains_download_url}/${arch3}.list" | sed -e 's/DOMAIN,/full:/' -e 's/DOMAIN-SUFFIX,//' -e 's/DOMAIN-KEYWORD,/keyword:/' -e 's/DOMAIN-REGEX,/regexp:/' > "./mydata/${arch3}"
+          done
+          mv -f ./mydata/cn-lite ./mydata/cn
+          go run ./ --datapath=./mydata/ --outputname geosite-mini.dat
+
+      - name: Generate `sing-box` geodata
         run: |
-          cd gfwlist2dnsmasq || exit 1
-          chmod +x ./gfwlist2dnsmasq.sh
-          ./gfwlist2dnsmasq.sh -l -o ./temp-gfwlist.txt
+          cd ./community/ || exit 1
+          go install -trimpath -ldflags="-s -w -buildid=" github.com/metacubex/geo/cmd/geo@master
+          for file in $(ls *.dat | sed 's/\.dat$//'); do
+            geo convert site -i v2ray -o sing -f "./${file}.db" "./${file}.dat"
+          done
 
-      - name: Get and add direct domains into temp-direct.txt file
+      - name: Get geoip relative files
         run: |
-          curl -sSL $CHINA_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "$1\n"' > temp-direct.txt
-          curl -sSL ${CUSTOM_DIRECT} | perl -ne '/^(domain):([^:]+)(\n$|:@.+)/ && print "$2\n"' >> temp-direct.txt
+          mkdir -p ./mihomo-geodata/ ./sing-box-geodata/
+          # Download mihomo geoip files (.mmdb)
+          mihomo_mmdb=($(curl -sSL https://api.github.com/repos/DustinWin/geoip/releases | grep '"browser_download_url"' | grep '.mmdb' | awk -F '"' '{print $4}'))
+          count_mihomo_mmdb=${#mihomo_mmdb[@]}
+          for ((i = 0; i < count_mihomo_mmdb; i++)); do
+            wget -P ./mihomo-geodata/ "${mihomo_mmdb[i]}"
+          done
 
-      - name: Get and add proxy domains into temp-proxy.txt file
+          # Download `mihomo` other geoip files (except .mmdb)
+          mihomo_others=($(curl -sSL https://api.github.com/repos/DustinWin/geoip/releases | grep '"browser_download_url"' | grep '/mihomo-geodata/' | grep -v '.mmdb' | awk -F '"' '{print $4}'))
+          count_mihomo_others=${#mihomo_others[@]}
+          for ((i = 0; i < count_mihomo_others; i++)); do
+            wget -P ./community/ "${mihomo_others[i]}"
+          done
+
+          # Download `sing-box` all geoip files
+          singbox_all=($(curl -sSL https://api.github.com/repos/DustinWin/geoip/releases | grep '"browser_download_url"' | grep '/sing-box-geodata/' | awk -F '"' '{print $4}'))
+          count_singbox_all=${#singbox_all[@]}
+          for ((i = 0; i < count_singbox_all; i++)); do
+            wget -P ./community/ "${singbox_all[i]}"
+          done
+
+      - name: Move `mihomo` and `sing-box` geodata files
         run: |
-          cat ./gfwlist2dnsmasq/temp-gfwlist.txt | perl -ne '/^((?=^.{3,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})+)/ && print "$1\n"' > temp-proxy.txt
-          curl -sSL $GOOGLE_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "$1\n"' >> temp-proxy.txt
-          curl -sSL $APPLE_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "$1\n"' >> temp-proxy.txt
-          curl -sSL ${CUSTOM_PROXY} | grep -Ev ":@cn" | perl -ne '/^(domain):([^:]+)(\n$|:@.+)/ && print "$2\n"' >> temp-proxy.txt
+          cd ./community/ || exit 1
+          for file in $(ls *.dat *.metadb); do
+            install -Dp "./${file}" ../mihomo-geodata/
+          done
+          for file in $(ls *.db); do
+            install -Dp "./${file}" ../sing-box-geodata/
+          done
+          rm -rf ../custom* ../community*
 
-      - name: Get and add reject domains into temp-reject.txt file
+      - name: Download `mihomo` rule-set files
         run: |
-          curl -sSL $EASYLISTCHINA_EASYLIST_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
-          curl -sSL $ADGUARD_DNS_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' >> temp-reject.txt
-          curl -sSL $PETERLOWE_REJECT_URL | perl -ne '/^127\.0\.0\.1\s([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})$/ && print "$1\n"' >> temp-reject.txt
-          curl -sSL $DANPOLLOCK_REJECT_URL | perl -ne '/^127\.0\.0\.1\s([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})/ && print "$1\n"' | sed '1d' >> temp-reject.txt
+          mkdir -p ./mihomo-ruleset/
+          domains=(ads trackerslist microsoft-cn apple-cn google-cn games-cn netflix disney max primevideo appletv youtube tiktok bilibili spotify media games ai networktest tld-proxy gfw proxy cn cn-lite)
+          ips=(netflixip mediaip gamesip privateip cnip telegramip)
 
-      - name: Reserve `full`, `regexp` and `keyword` type of rules from custom lists to "reserve" files
+          for domain in "${domains[@]}"; do
+            mkdir -p "./tools/domains/${domain}/"
+            curl -sSL "${domains_download_url}/${domain}.list" | sed -e 's/DOMAIN,//' -e 's/DOMAIN-SUFFIX,/\+\./' >> "./tools/domains/${domain}/${domain}.list"
+          done
+
+          mkdir -p ./tmp/ ./tools/domains/fakeip-filter/
+          curl -sSL "${domains_download_url}/fakeip-filter.list" | awk '!/^DOMAIN-REGEX,/' | sed -e 's/DOMAIN,//' -e 's/DOMAIN-SUFFIX,/\+\./' > ./tmp/temp-fakeip-filter-domains.txt
+          curl -sSL "${domains_download_url}/fakeip-filter.list" | awk '/^DOMAIN-REGEX,/' | sed -e 's/\\s/ /' -e 's/\\./\./g' -e 's/\[\^.\]+/*/g' -e 's/\^\.\*/\^\+/' -e 's/.*\^//; s/\$//' >> ./tmp/temp-fakeip-filter-domains.txt
+          sort --ignore-case ./tmp/temp-fakeip-filter-domains.txt >> ./tools/domains/fakeip-filter/fakeip-filter.list
+
+          mkdir -p ./tools/domains/fakeip-filter-lite/
+          curl -sSL "${domains_download_url}/fakeip-filter-lite.list" | awk '!/^DOMAIN-REGEX,/' | sed -e 's/DOMAIN,//' -e 's/DOMAIN-SUFFIX,/\+\./' > ./tmp/temp-fakeip-filter-lite-domains.txt
+          curl -sSL "${domains_download_url}/fakeip-filter-lite.list" | awk '/^DOMAIN-REGEX,/' | sed -e 's/\\./\./g' -e 's/\[\^.\]+/*/g' -e 's/\^\.\*/\^\+/' -e 's/.*\^//; s/\$//' >> ./tmp/temp-fakeip-filter-lite-domains.txt
+          sort --ignore-case ./tmp/temp-fakeip-filter-lite-domains.txt >> ./tools/domains/fakeip-filter-lite/fakeip-filter-lite.list
+
+          mkdir -p ./tools/domains/private/
+          curl -sSL "${domains_download_url}/private.list" | awk '!/^DOMAIN-REGEX,/' | sed -e 's/DOMAIN,//' -e 's/DOMAIN-SUFFIX,/\+\./' > ./tmp/temp-private-domains.txt
+          curl -sSL "${domains_download_url}/private.list" | awk '/^DOMAIN-REGEX,/' | sed -e 's/\\./\./g' -e 's/\[\^.\]+/*/g' -e 's/\^\.\*/\^\+/' -e 's/.*\^//; s/\$//' >> ./tmp/temp-private-domains.txt
+          sort --ignore-case ./tmp/temp-private-domains.txt >> ./tools/domains/private/private.list
+          rm -f ./tmp/*
+
+          curl -sSL "${domains_download_url}/applications.list" > ./mihomo-ruleset/applications.list
+
+          for ip in "${ips[@]}"; do
+            mkdir -p "./tools/ips/${ip}/"
+            curl -sSL "${ips_download_url}/${ip}.list" | sed 's/.*,//' >> "./tools/ips/${ip}/${ip}.list"
+          done
+
+      - name: Download `sing-box` rule_set files
         run: |
-          curl -sSL ${CUSTOM_DIRECT} | perl -ne '/^((full|regexp|keyword):[^:]+)(\n$|:@.+)/ && print "$1\n"' | sort --ignore-case -u > direct-reserve.txt
-          curl -sSL ${CUSTOM_PROXY} | grep -Ev ":@cn" | perl -ne '/^((full|regexp|keyword):[^:]+)(\n$|:@.+)/ && print "$1\n"' | sort --ignore-case -u > proxy-reserve.txt
+          domains=(private ads trackerslist microsoft-cn apple-cn google-cn games-cn netflix disney max primevideo appletv youtube tiktok bilibili spotify media games ai networktest tld-proxy gfw proxy cn cn-lite)
+          ips=(netflixip mediaip gamesip privateip cnip telegramip)
 
-      - name: Add proxy, direct and reject domains from "hidden" branch to appropriate temp files
+          for domain in "${domains[@]}"; do
+            mkdir -p "./tools/rules/${domain}/"
+            curl -sSL "${domains_download_url}/${domain}.list" > "./tools/rules/${domain}/${domain}.list"
+          done
+          mkdir -p ./tools/rules/fakeip-filter/
+          curl -sSL "${domains_download_url}/fakeip-filter.list" | awk '!/^DOMAIN-REGEX,/' > ./tmp/temp-fakeip-filter-rules.txt
+          cat <<EOF >> ./tmp/temp-fakeip-filter-rules.txt
+          DOMAIN-KEYWORD,ntp
+          DOMAIN-KEYWORD,stun
+          DOMAIN-KEYWORD,time
+          EOF
+          curl -sSL "${domains_download_url}/fakeip-filter.list" | awk '/^DOMAIN-REGEX,/ && !/ntp|stun|time/' >> ./tmp/temp-fakeip-filter-rules.txt
+          sort --ignore-case ./tmp/temp-fakeip-filter-rules.txt > ./tools/rules/fakeip-filter/fakeip-filter.list
+
+          mkdir -p ./tools/rules/fakeip-filter-lite/
+          curl -sSL "${domains_download_url}/fakeip-filter-lite.list" | awk '!/^DOMAIN-REGEX,/' > ./tmp/temp-fakeip-filter-lite-rules.txt
+          cat <<EOF >> ./tmp/temp-fakeip-filter-lite-rules.txt
+          DOMAIN-KEYWORD,ntp
+          DOMAIN-KEYWORD,stun
+          DOMAIN-KEYWORD,time
+          EOF
+          sort --ignore-case ./tmp/temp-fakeip-filter-lite-rules.txt > ./tools/rules/fakeip-filter-lite/fakeip-filter-lite.list
+          rm -rf ./tmp*
+
+          mkdir -p ./tools/rules/applications/
+          curl -sSL "${domains_download_url}/applications.list" > "./tools/rules/applications/applications.list"
+
+          for ip in "${ips[@]}"; do
+            mkdir -p "./tools/rules/${ip}/"
+            curl -sSL "${ips_download_url}/${ip}.list" > "./tools/rules/${ip}/${ip}.list"
+          done
+
+      - name: Generate `mihomo` rule-set (mrs) and move .list files
         run: |
-          cat proxy.txt >> temp-proxy.txt
-          cat direct.txt >> temp-direct.txt
-          cat reject.txt >> temp-reject.txt
+          curl -L https://github.com/DustinWin/proxy-tools/releases/download/mihomo/mihomo-meta-linux-amd64v3.tar.gz | tar -zx -C ./tools/
+          mv -f ./tools/CrashCore ./tools/mihomo
 
-      - name: Sort and generate redundant lists
+          cd ./tools/
+          chmod +x ./mihomo
+          list=($(ls ./domains/))
+          for ((i = 0; i < ${#list[@]}; i++)); do
+            ./mihomo convert-ruleset domain text "./domains/${list[i]}/${list[i]}.list" ../mihomo-ruleset/${list[i]}.mrs
+            mv -f "./domains/${list[i]}/${list[i]}.list" ../mihomo-ruleset/
+          done
+
+          list=($(ls ./ips/))
+          for ((i = 0; i < ${#list[@]}; i++)); do
+            ./mihomo convert-ruleset ipcidr text "./ips/${list[i]}/${list[i]}.list" ../mihomo-ruleset/${list[i]}.mrs
+            mv -f "./ips/${list[i]}/${list[i]}.list" ../mihomo-ruleset/
+          done
+          rm -rf ./mihomo* ./domains/ ./ips/
+
+      - name: Generate `sing-box` rule_set (srs) and move .json files
         run: |
-          cat temp-proxy.txt | sort --ignore-case -u > proxy-list-with-redundant
-          cat temp-direct.txt | sort --ignore-case -u > direct-list-with-redundant
-          cat temp-reject.txt | sort --ignore-case -u > reject-list-with-redundant
+          if [[ "${{ env.singbox_core_last1_version }}" == "${{ env.singbox_core_release_version }}" ]]; then
+            # Setting `sing-box` core&ruleset environment variables
+            echo "singbox_core_old_version=${{ env.singbox_core_last2_version }}" >> $GITHUB_ENV
+            echo "singbox_core_new_version=${{ env.singbox_core_last1_version }}" >> $GITHUB_ENV
+            echo "singbox_ruleset_old_version=${{ env.singbox_rules_last2_version }}" >> $GITHUB_ENV
+            echo "singbox_ruleset_new_version=${{ env.singbox_rules_last1_version }}" >> $GITHUB_ENV
+            echo "singbox_equal=true" >> $GITHUB_ENV
 
-      - name: Remove redundant domains
-        run: |
-          chmod +x findRedundantDomain.py
-          ./findRedundantDomain.py ./direct-list-with-redundant ./direct-list-deleted-unsort
-          ./findRedundantDomain.py ./proxy-list-with-redundant ./proxy-list-deleted-unsort
-          ./findRedundantDomain.py ./reject-list-with-redundant ./reject-list-deleted-unsort
-          [ ! -f "direct-list-deleted-unsort" ] && touch direct-list-deleted-unsort
-          [ ! -f "proxy-list-deleted-unsort" ] && touch proxy-list-deleted-unsort
-          [ ! -f "reject-list-deleted-unsort" ] && touch reject-list-deleted-unsort
-          sort ./direct-list-deleted-unsort > ./direct-list-deleted-sort
-          sort ./proxy-list-deleted-unsort > ./proxy-list-deleted-sort
-          sort ./reject-list-deleted-unsort > ./reject-list-deleted-sort
-          diff ./direct-list-deleted-sort ./direct-list-with-redundant | awk '/^>/{print $2}' > ./direct-list-without-redundant
-          diff ./proxy-list-deleted-sort ./proxy-list-with-redundant | awk '/^>/{print $2}' > ./proxy-list-without-redundant
-          diff ./reject-list-deleted-sort ./reject-list-with-redundant | awk '/^>/{print $2}' > ./reject-list-without-redundant
+            # Generate `sing-box` rule_set (compatible)
+            curl -L "https://github.com/SagerNet/sing-box/releases/download/v${{ env.singbox_core_last2_version }}/sing-box-${{ env.singbox_core_last2_version }}-linux-amd64.tar.gz" | tar -zx -C ./tools/
+            mv -f "./tools/sing-box-${{ env.singbox_core_last2_version }}-linux-amd64/sing-box" ./tools/sing-box
+            mkdir -p ./sing-box-ruleset-compatible/
+            cd ./tools/
+            sed -i 's/"version": 1/"version": ${{ env.singbox_rules_last2_version }}/' ./convert.sh
+            chmod +x ./convert.sh && ./convert.sh
+            mv -f ./*.json ./*.srs ../sing-box-ruleset-compatible/
+            rm -rf ./sing-box*
 
-      - name: Remove domains from "need-to-remove" lists in "hidden" branch
-        run: |
-          diff ./direct-need-to-remove.txt ./direct-list-without-redundant | awk '/^>/{print $2}' > temp-cn.txt
-          diff ./proxy-need-to-remove.txt ./proxy-list-without-redundant | awk '/^>/{print $2}' > temp-geolocation-\!cn.txt
-          diff ./reject-need-to-remove.txt ./reject-list-without-redundant | awk '/^>/{print $2}' > temp-category-ads-all.txt
+            # Generate `sing-box` rule_set
+            cd ../
+            curl -L "https://github.com/SagerNet/sing-box/releases/download/v${{ env.singbox_core_last1_version }}/sing-box-${{ env.singbox_core_last1_version }}-linux-amd64.tar.gz" | tar -zx -C ./tools/
+            mv -f "./tools/sing-box-${{ env.singbox_core_last1_version }}-linux-amd64/sing-box" ./tools/sing-box
+            mkdir -p ./sing-box-ruleset/
+            cd ./tools/
+            sed -i 's/"version": ${{ env.singbox_rules_last2_version }}/"version": ${{ env.singbox_rules_last1_version }}/' ./convert.sh
+            chmod +x ./convert.sh && ./convert.sh
+            mv -f ./*.json ./*.srs ../sing-box-ruleset/
+            rm -rf ./sing-box* ./rules*
+          else
+            # Setting `sing-box` core&ruleset environment variables
+            echo "singbox_core_old_version=${{ env.singbox_core_last3_version }}" >> $GITHUB_ENV
+            echo "singbox_core_new_version=${{ env.singbox_core_last2_version }}" >> $GITHUB_ENV
+            echo "singbox_ruleset_old_version=${{ env.singbox_rules_last3_version }}" >> $GITHUB_ENV
+            echo "singbox_ruleset_new_version=${{ env.singbox_rules_last2_version }}" >> $GITHUB_ENV
+            echo "singbox_equal=false" >> $GITHUB_ENV
 
-      - name: Write lists to data directory
-        run: |
-          cat temp-cn.txt | sort --ignore-case -u | perl -ne '/^((?=^.{1,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})*)/ && print "$1\n"' > ./community/data/cn
-          cat temp-cn.txt | sort --ignore-case -u | perl -ne 'print if not /^((?=^.{3,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})+)/' > direct-tld-list.txt
-          cat temp-geolocation-\!cn.txt | sort --ignore-case -u | perl -ne '/^((?=^.{1,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})*)/ && print "$1\n"' > ./community/data/geolocation-\!cn
-          cat temp-geolocation-\!cn.txt | sort --ignore-case -u | perl -ne 'print if not /^((?=^.{3,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})+)/' > proxy-tld-list.txt
-          cat temp-category-ads-all.txt | sort --ignore-case -u | perl -ne '/^((?=^.{1,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})*)/ && print "$1\n"' > ./community/data/category-ads-all
-          cat temp-category-ads-all.txt | sort --ignore-case -u | perl -ne 'print if not /^((?=^.{3,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})+)/' > reject-tld-list.txt
+            # Generate `sing-box` rule_set (compatible)
+            wget "https://github.com/SagerNet/sing-box/releases/download/v${{ env.singbox_core_last3_version }}/sing-box-${{ env.singbox_core_last3_version }}-linux-amd64.tar.gz" -O - | tar -zxf - -C ./tools/
+            mv -f "./tools/sing-box-${{ env.singbox_core_last3_version }}-linux-amd64/sing-box" ./tools/sing-box
+            mkdir -p ./sing-box-ruleset-compatible/
+            cd ./tools/
+            sed -i 's/"version": 1/"version": ${{ env.singbox_rules_last3_version }}/' ./convert.sh
+            chmod +x ./convert.sh && ./convert.sh
+            mv -f ./*.json ./*.srs ../sing-box-ruleset-compatible/
+            rm -rf ./sing-box*
 
-      - name: Add `full`, `regexp` and `keyword` type of rules back into "cn", "geolocation-!cn" and "category-ads-all" list
-        run: |
-          [ -f "direct-reserve.txt" ] && cat direct-reserve.txt >> ./community/data/cn
-          [ -f "proxy-reserve.txt" ] && cat proxy-reserve.txt >> ./community/data/geolocation-\!cn
-          [ -f "reject-reserve.txt" ] && cat reject-reserve.txt >> ./community/data/category-ads-all
-          cp ./community/data/cn direct-list.txt
-          cp ./community/data/geolocation-\!cn proxy-list.txt
-          cp ./community/data/category-ads-all reject-list.txt
+            # Generate `sing-box` rule_set
+            cd ../
+            curl -L "https://github.com/SagerNet/sing-box/releases/download/v${{ env.singbox_core_last2_version }}/sing-box-${{ env.singbox_core_last2_version }}-linux-amd64.tar.gz" | tar -zx -C ./tools/
+            mv -f "./tools/sing-box-${{ env.singbox_core_last2_version }}-linux-amd64/sing-box" ./tools/sing-box
+            mkdir -p ./sing-box-ruleset/
+            cd ./tools/
+            sed -i 's/"version": ${{ env.singbox_rules_last3_version }}/"version": ${{ env.singbox_rules_last2_version }}/' ./convert.sh
+            chmod +x ./convert.sh && ./convert.sh
+            mv -f ./*.json ./*.srs ../sing-box-ruleset/
+            rm -rf ./sing-box* ./rules*
+          fi
 
-      - name: Create `china-list`、`google-cn`、`apple-cn`、`gfw`、`greatfire` lists
-        run: |
-          curl -sSL $CHINA_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "$1\n"' > ./community/data/china-list
-          curl -sSL $CHINA_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "$1\n"' > china-list.txt
-          curl -sSL $GOOGLE_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "full:$1\n"' > ./community/data/google-cn
-          curl -sSL $GOOGLE_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "full:$1\n"' > google-cn.txt
-          curl -sSL $APPLE_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "full:$1\n"' > ./community/data/apple-cn
-          curl -sSL $APPLE_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "full:$1\n"' > apple-cn.txt
-          cat ./gfwlist2dnsmasq/temp-gfwlist.txt | perl -ne '/^((?=^.{3,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})+)/ && print "$1\n"' >> ./community/data/gfw
-          cat ./community/data/gfw | sort --ignore-case -u > gfw.txt
-          cat ./community/data/greatfire | sort --ignore-case -u > greatfire.txt
-          curl -sSL $WIN_SPY | grep "0.0.0.0" | awk '{print $2}' > ./community/data/win-spy
-          curl -sSL $WIN_SPY | grep "0.0.0.0" | awk '{print $2}' > win-spy.txt
-          curl -sSL $WIN_UPDATE | grep "0.0.0.0" | awk '{print $2}' > ./community/data/win-update
-          curl -sSL $WIN_UPDATE | grep "0.0.0.0" | awk '{print $2}' > win-update.txt
-          curl -sSL $WIN_EXTRA | grep "0.0.0.0" | awk '{print $2}' > ./community/data/win-extra
-          curl -sSL $WIN_EXTRA | grep "0.0.0.0" | awk '{print $2}' > win-extra.txt
-
-      - name: Build geosite.dat file
-        run: |
-          cd custom || exit 1
-          go run ./ --datapath=../community/data
-
-      - name: Move and zip files and generate sha256 hash
-        run: |
-          install -Dp ./geoip.dat ./publish/geoip.dat
-          install -Dp ./geoip.dat.sha256sum ./publish/geoip.dat.sha256sum
-          install -Dp ./custom/publish/geosite.dat ./publish/geosite.dat
-          install -p {proxy,direct,reject}-tld-list.txt ./publish/
-          install -p {proxy,direct,reject}-list.txt ./publish/
-          install -p {china-list,apple-cn,google-cn,gfw,greatfire,win-spy,win-update,win-extra}.txt ./publish/
-          cd ./publish || exit 1
-          zip rules.zip {proxy,direct,reject}-list.txt geoip.dat geosite.dat
-          sha256sum geosite.dat > geosite.dat.sha256sum
-          sha256sum rules.zip > rules.zip.sha256sum
-
-      - name: Release and upload assets
+      - name: Release and upload `mihomo-geodata` assets
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          release_name: ${{ env.RELEASE_NAME }}
-          tag: ${{ env.TAG_NAME }}
+          release_name: mihomo-geodata
+          tag: mihomo-geodata
+          overwrite: true
+          body: |
+            [mihomo 内核](https://github.com/MetaCubeX/mihomo) geodata 文件
+            geodata 文件更新于 ${{ env.update_version }}
           file_glob: true
-          file: ./publish/*
+          file: ./mihomo-geodata/*
 
-      - name: Git push assets to "release" branch
+      - name: Commit and push `mihomo-geodata` branch
         run: |
-          cd publish || exit 1
+          cd ./mihomo-geodata/ || exit 1
           git init
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -b release
-          git add .
-          git commit -m "${{ env.RELEASE_NAME }}"
+          git checkout -b mihomo-geodata
+          git add . && git commit -m "mihomo 内核 geodata 文件更新于 ${update_version}"
           git remote add origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
-          git push -f -u origin release
+          git push -f origin mihomo-geodata
 
-      - name: Purge jsdelivr CDN
+      - name: Release and upload `mihomo-ruleset` assets
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          release_name: mihomo-ruleset
+          tag: mihomo-ruleset
+          overwrite: true
+          body: |
+            [mihomo 内核](https://github.com/MetaCubeX/mihomo) rule-set 规则集文件
+            规则集文件更新于 ${{ env.update_version }}
+          file_glob: true
+          file: ./mihomo-ruleset/*
+
+      - name: Commit and push `mihomo-ruleset` branch
         run: |
-          cd publish || exit 1
+          cd ./mihomo-ruleset/ || exit 1
+          git init
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git checkout -b mihomo-ruleset
+          git add . && git commit -m "mihomo 内核 rule-set 规则集文件更新于 ${update_version}"
+          git remote add origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+          git push -f origin mihomo-ruleset
+
+      - name: Release and upload `sing-box-geodata` assets
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          release_name: sing-box-geodata
+          tag: sing-box-geodata
+          overwrite: true
+          body: |
+            [sing-box 内核](https://github.com/SagerNet/sing-box) geodata 文件
+            geodata 文件更新于 ${{ env.update_version }}
+          file_glob: true
+          file: ./sing-box-geodata/*
+
+      - name: Commit and push `sing-box-geodata` branch
+        run: |
+          cd ./sing-box-geodata/ || exit 1
+          git init
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git checkout -b sing-box-geodata
+          git add . && git commit -m "sing-box 内核 geodata 文件更新于 ${update_version}"
+          git remote add origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+          git push -f origin sing-box-geodata
+
+      - name: Release and upload `sing-box-ruleset-compatible` assets
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          release_name: sing-box-ruleset-compatible
+          tag: sing-box-ruleset-compatible
+          overwrite: true
+          body: |
+            [sing-box 内核](https://github.com/SagerNet/sing-box) rule_set 规则集文件
+            适用于 v${{ env.singbox_core_old_version }}-v${{ env.singbox_core_new_version }}（不包含）系列版本的 sing-box 内核（`"version": ${{ env.singbox_ruleset_old_version }}`）
+            规则集文件更新于 ${{ env.update_version }}
+          file_glob: true
+          file: ./sing-box-ruleset-compatible/*
+
+      - name: Commit and push `sing-box-ruleset-compatible` branch
+        run: |
+          cd ./sing-box-ruleset-compatible/ || exit 1
+          git init
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git checkout -b sing-box-ruleset-compatible
+          git add . && git commit -m "sing-box 内核 rule_set 规则集文件更新于 ${update_version}"
+          git remote add origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+          git push -f origin sing-box-ruleset-compatible
+
+      - name: Release and upload `sing-box-ruleset` assets
+        if: ${{ env.singbox_equal == 'true' }}
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          release_name: sing-box-ruleset
+          tag: sing-box-ruleset
+          overwrite: true
+          body: |
+            [sing-box 内核](https://github.com/SagerNet/sing-box) rule_set 规则集文件
+            适用于 v${{ env.singbox_core_new_version }} 系列版本的 sing-box 内核（`"version": ${{ env.singbox_ruleset_new_version }}`）
+            规则集文件更新于 ${{ env.update_version }}
+          file_glob: true
+          file: ./sing-box-ruleset/*
+
+      - name: Release and upload `sing-box-ruleset` assets
+        if: ${{ env.singbox_equal == 'false' }}
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          release_name: sing-box-ruleset
+          tag: sing-box-ruleset
+          overwrite: true
+          body: |
+            [sing-box 内核](https://github.com/SagerNet/sing-box) rule_set 规则集文件
+            适用于 v${{ env.singbox_core_new_version }}（包含）+ 系列版本的 sing-box 内核（`"version": ${{ env.singbox_ruleset_new_version }}`）
+            规则集文件更新于 ${{ env.update_version }}
+          file_glob: true
+          file: ./sing-box-ruleset/*
+
+      - name: Commit and push `sing-box-ruleset` branch
+        run: |
+          cd ./sing-box-ruleset/ || exit 1
+          git init
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git checkout -b sing-box-ruleset
+          git add . && git commit -m "sing-box 内核 rule_set 规则集文件更新于 ${update_version}"
+          git remote add origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+          git push -f origin sing-box-ruleset
+
+      - name: Purge jsDelivr CDN
+        run: |
+          cd ./mihomo-geodata/ || exit 1
           for file in $(ls); do
-            curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@release/${file}"
+            curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@mihomo-geodata/${file}"
           done
+          cd ../sing-box-geodata/ || exit 1
+          for file in $(ls); do
+            curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@sing-box-geodata/${file}"
+          done
+          cd ../mihomo-ruleset/ || exit 1
+          for file in $(ls); do
+            curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@mihomo-ruleset/${file}"
+          done
+          cd ../sing-box-ruleset-compatible/ || exit 1
+          for file in $(ls); do
+            curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@sing-box-ruleset-compatible/${file}"
+          done
+          cd ../sing-box-ruleset/ || exit 1
+          for file in $(ls); do
+            curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@sing-box-ruleset/${file}"
+          done
+
+      - name: Delete old workflow runs
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          retain_days: 3
+          keep_minimum_runs: 1
