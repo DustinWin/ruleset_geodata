@@ -4,8 +4,7 @@
 
 # 一、 geodata 文件说明
 ## 1. 文件类型
-① [mihomo 内核](https://github.com/MetaCubeX/mihomo) geodata 文件，包括：geosite.dat、geoip.dat、Country.mmdb 和 geoip.metadb、ASN.mmdb（仅限 mihomo 内核）等  
-② [sing-box 内核](https://github.com/SagerNet/sing-box) geodata 文件，包括：geosite.db 和 geoip.db 等
+[mihomo 内核](https://github.com/MetaCubeX/mihomo) geodata 文件，包括：geosite.dat、geoip.dat、Country.mmdb 和 geoip.metadb、ASN.mmdb（仅限 mihomo 内核）等  
 ## 2. 数据源
 ① 每天凌晨 3 点（北京时间 UTC+8）自动构建，由上游项目 [DustinWin/domain-list-custom](https://github.com/DustinWin/domain-list-custom) 和 [DustinWin/geoip](https://github.com/DustinWin/geoip) 提供数据源，可查看[域名列表](https://github.com/DustinWin/domain-list-custom/tree/domains)和 [IP 段列表](https://github.com/DustinWin/geoip/tree/ips)  
 ② `geosite,fakeip-filter,📌 fakeip 过滤` 源采用 [DustinWin/fake_ip_filter.list](https://github.com/DustinWin/ShellCrash/blob/dev/public/fake_ip_filter.list)（搭载 mihomo 内核或 [sing-box PuerNya 版内核](https://github.com/PuerNya/sing-box/tree/building)时，可使该规则集内的域名走 realip）  
@@ -49,25 +48,11 @@
     <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-geodata/geosite-all.dat">点此下载</a></td>
   </tr>
   <tr>
-    <td>geosite-all.db</td>
-    <td><code>fakeip-filter</code>、<del><code>fakeip-filter-lite</code></del>、<code>private</code>、<code>ads</code>、<code>trackerslist</code>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<code>media</code>、<code>games</code>、<code>ai</code>、<code>networktest</code>、<code>tld-proxy</code>、<code>gfw</code>、<code>proxy</code> 和 <code>cn</code></td>
-    <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-geodata/geosite-all.db">点此下载</a></td>
-    <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-geodata/geosite-all.db">点此下载</a></td>
-    <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-geodata/geosite-all.db">点此下载</a></td>
-  </tr>
-  <tr>
     <td>geosite-all-lite.dat</td>
     <td><del><code>fakeip-filter</code></del>、<code>fakeip-filter-lite</code>、<code>private</code>、<del><code>ads</code></del>、<code>trackerslist</code>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<code>media</code>、<code>games</code>、<code>ai</code>、<code>networktest</code>、<code>tld-proxy</code>、<code>gfw</code>、<code>proxy</code> 和 <code>cn</code></td>
     <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-geodata/geosite-all-lite.dat">点此下载</a></td>
     <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-geodata/geosite-all-lite.dat">点此下载</a></td>
     <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-geodata/geosite-all-lite.dat">点此下载</a></td>
-  </tr>
-  <tr>
-    <td>geosite-all-lite.db</td>
-    <td><del><code>fakeip-filter</code></del>、<code>fakeip-filter-lite</code>、<code>private</code>、<del><code>ads</code></del>、<code>trackerslist</code>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<code>media</code>、<code>games</code>、<code>ai</code>、<code>networktest</code>、<code>tld-proxy</code>、<code>gfw</code>、<code>proxy</code> 和 <code>cn</code></td>
-    <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-geodata/geosite-all-lite.db">点此下载</a></td>
-    <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-geodata/geosite-all-lite.db">点此下载</a></td>
-    <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-geodata/geosite-all-lite.db">点此下载</a></td>
   </tr>
   <tr>
     <td>geosite.dat</td>
@@ -77,25 +62,11 @@
     <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-geodata/geosite.dat">点此下载</a></td>
   </tr>
   <tr>
-    <td>geosite.db</td>
-    <td><code>fakeip-filter</code>、<del><code>fakeip-filter-lite</code></del>、<code>private</code>、<code>ads</code>、<code>trackerslist</code>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<del><code>media</code>、<code>games</code></del>、<code>ai</code>、<code>networktest</code>、<code>tld-proxy</code>、<code>gfw</code>、<code>proxy</code> 和 <code>cn</code></td>
-    <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-geodata/geosite.db">点此下载</a></td>
-    <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-geodata/geosite.db">点此下载</a></td>
-    <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-geodata/geosite.db">点此下载</a></td>
-  </tr>
-  <tr>
     <td>geosite-lite.dat</td>
     <td><del><code>fakeip-filter</code></del>、<code>fakeip-filter-lite</code>、<code>private</code>、<del><code>ads</code></del>、<code>trackerslist</code>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<del><code>media</code>、<code>games</code></del>、<code>ai</code>、<code>networktest</code>、<code>tld-proxy</code>、<code>gfw</code>、<code>proxy</code> 和 <code>cn</code></td>
     <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-geodata/geosite-lite.dat">点此下载</a></td>
     <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-geodata/geosite-lite.dat">点此下载</a></td>
     <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-geodata/geosite-lite.dat">点此下载</a></td>
-  </tr>
-  <tr>
-    <td>geosite-lite.db</td>
-    <td><del><code>fakeip-filter</code></del>、<code>fakeip-filter-lite</code>、<code>private</code>、<del><code>ads</code></del>、<code>trackerslist</code>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<del><code>media</code>、<code>games</code></del>、<code>ai</code>、<code>networktest</code>、<code>tld-proxy</code>、<code>gfw</code>、<code>proxy</code> 和 <code>cn</code></td>
-    <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-geodata/geosite-lite.db">点此下载</a></td>
-    <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-geodata/geosite-lite.db">点此下载</a></td>
-    <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-geodata/geosite-lite.db">点此下载</a></td>
   </tr>
   <tr>
     <td>geosite-mini.dat</td>
@@ -105,15 +76,8 @@
     <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-geodata/geosite-mini.dat">点此下载</a></td>
   </tr>
   <tr>
-    <td>geosite-mini.db</td>
-    <td><del><code>fakeip-filter</code>、<code>fakeip-filter-lite</code></del>、<code>private</code>、<del><code>ads</code>、<code>trackerslist</code></del>、<code>microsoft-cn</code>、<code>apple-cn</code>、<code>google-cn</code>、<code>games-cn</code>、<del><code>media</code>、<code>games</code>、<code>ai</code>、<code>networktest</code></del>、<code>tld-proxy</code>、<code>gfw</code>、<del><code>proxy</code></del> 和 <code>cn</code>（精简版）</td>
-    <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-geodata/geosite-mini.db">点此下载</a></td>
-    <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-geodata/geosite-mini.db">点此下载</a></td>
-    <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-geodata/geosite-mini.db">点此下载</a></td>
-  </tr>
-  <tr>
     <td>geoip-all.dat</td>
-    <td rowspan="4" align="center"><a href="https://github.com/Loyalsoldier/geoip/tree/release/text">点此查看</a></td>
+    <td rowspan="3" align="center"><a href="https://github.com/Loyalsoldier/geoip/tree/release/text">点此查看</a></td>
     <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-geodata/geoip-all.dat">点此下载</a></td>
     <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-geodata/geoip-all.dat">点此下载</a></td>
     <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-geodata/geoip-all.dat">点此下载</a></td>
@@ -131,12 +95,6 @@
     <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-geodata/geoip-all.metadb">点此下载</a></td>
   </tr>
   <tr>
-    <td>geoip-all.db</td>
-    <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-geodata/geoip-all.db">点此下载</a></td>
-    <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-geodata/geoip-all.db">点此下载</a></td>
-    <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-geodata/geoip-all.db">点此下载</a></td>
-  </tr>
-  <tr>
     <td>Country-ASN-all.mmdb</td>
     <td><code>cloudflare</code></del>、<code>cloudfront</code>、<code>facebook</code>、<code>fastly</code>、<code>google</code>、<code>netflix</code>、<code>telegram</code> 和 <code>twitter</code>，具体可<a href="https://github.com/Loyalsoldier/geoip/blob/d1eca9ff06580fe8f015b139248e09177a576c38/config.json#L124">点此查看</a></td>
     <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-geodata/Country-ASN-all.mmdb">点此下载</a></td>
@@ -145,7 +103,7 @@
   </tr>
   <tr>
     <td>geoip.dat</td>
-    <td rowspan="4"><code>private</code>、<code>cn</code>、<code>media</code>、<code>games</code> 和 <code>telegram</code></td>
+    <td rowspan="3"><code>private</code>、<code>cn</code>、<code>media</code>、<code>games</code> 和 <code>telegram</code></td>
     <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-geodata/geoip.dat">点此下载</a></td>
     <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-geodata/geoip.dat">点此下载</a></td>
     <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-geodata/geoip.dat">点此下载</a></td>
@@ -163,14 +121,8 @@
     <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-geodata/geoip.metadb">点此下载</a></td>
   </tr>
   <tr>
-    <td>geoip.db</td>
-    <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-geodata/geoip.db">点此下载</a></td>
-    <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-geodata/geoip.db">点此下载</a></td>
-    <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-geodata/geoip.db">点此下载</a></td>
-  </tr>
-  <tr>
     <td>geoip-lite.dat</td>
-    <td rowspan="4"><code>private</code>、<code>cn</code>、<del><code>media</code>、<code>games</code></del> 和 <code>telegram</code></td>
+    <td rowspan="3"><code>private</code>、<code>cn</code>、<del><code>media</code>、<code>games</code></del> 和 <code>telegram</code></td>
     <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-geodata/geoip-lite.dat">点此下载</a></td>
     <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-geodata/geoip-lite.dat">点此下载</a></td>
     <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-geodata/geoip-lite.dat">点此下载</a></td>
@@ -188,12 +140,6 @@
     <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-geodata/geoip-lite.metadb">点此下载</a></td>
   </tr>
   <tr>
-    <td>geoip-lite.db</td>
-    <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-geodata/geoip-lite.db">点此下载</a></td>
-    <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-geodata/geoip-lite.db">点此下载</a></td>
-    <td><a href="https://ghfast.top/https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-geodata/geoip-lite.db">点此下载</a></td>
-  </tr>
-  <tr>
     <td>Country-ASN.mmdb</td>
     <td><code>netflix</code> 和 <code>telegram</code>，具体可<a href="https://github.com/DustinWin/geoip/blob/master/config.json#L73">点此查看</a></td>
     <td><a href="https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-geodata/Country-ASN.mmdb">点此下载</a></td>
@@ -204,19 +150,15 @@
 
 ## 4. 文件导入
 <details>
-<summary>① 导入到 Linux 端（以 <a href="https://github.com/juewuy/ShellCrash">ShellCrash</a> 导入 geosite.dat、geoip.dat、Country.mmdb、geoip.metadb、ASN.mmdb 和 geosite.db、geoip.db 为例）</summary>
+<summary>① 导入到 Linux 端（以 <a href="https://github.com/juewuy/ShellCrash">ShellCrash</a> 导入 geosite.dat、geoip.dat、Country.mmdb、geoip.metadb 和 ASN.mmdb 为例）</summary>
 
 连接 SSH 后执行如下命令：
 ```shell
-# 适用于 mihomo 内核
 curl -o $CRASHDIR/GeoSite.dat -L https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-geodata/geosite.dat
 curl -o $CRASHDIR/GeoIP.dat -L https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-geodata/geoip.dat
 curl -o $CRASHDIR/Country.mmdb -L https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-geodata/Country.mmdb
 curl -o $CRASHDIR/geoip.metadb -L https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-geodata/geoip.metadb
 curl -o $CRASHDIR/ASN.mmdb -L https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-geodata/Country-ASN.mmdb
-# 适用于 sing-box 内核
-curl -o $CRASHDIR/geosite.db -L https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-geodata/geosite.db
-curl -o $CRASHDIR/geoip.db -L https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-geodata/geoip.db
 $CRASHDIR/start.sh restart
 ```
 </details>
@@ -370,85 +312,6 @@ rules:
   - GEOIP,media,国外媒体
   - GEOIP,games,游戏平台
   - GEOIP,telegram,电报消息,no-resolve
-```
-</details>
-
-## 6. sing-box 内核文件使用
-注：
-- 1. 须手动新建“*geodata*”文件夹，否则路由规则文件不会保存在本地。如导入 ShellCrash，可先连接 SSH 后执行命令 `mkdir -p $CRASHDIR/geodata/`
-- 2. 以下只是节选，请酌情套用
-
-<details>
-<summary>展开/收起</summary>
-
-```json
-{
-  "outbounds": [
-    { "tag": "🚀 节点选择", "type": "selector", "outbounds": [ "🇭🇰 香港节点", "🇹🇼 台湾节点", "🇯🇵 日本节点", "🇸🇬 新加坡节点", "🇺🇸 美国节点" ] },
-    { "tag": "📈 网络测试", "type": "selector", "outbounds": [ "🎯 全球直连", "🇭🇰 香港节点", "🇹🇼 台湾节点", "🇯🇵 日本节点", "🇸🇬 新加坡节点", "🇺🇸 美国节点" ] },
-    { "tag": "🤖 AI 平台", "type": "selector", "outbounds": [ "🚀 节点选择", "🇭🇰 香港节点", "🇹🇼 台湾节点", "🇯🇵 日本节点", "🇸🇬 新加坡节点", "🇺🇸 美国节点" ] },
-    { "tag": "📋 Trackerslist", "type": "selector", "outbounds": [ "🎯 全球直连", "🚀 节点选择" ] },
-    { "tag": "🎮 游戏服务", "type": "selector", "outbounds": [ "🎯 全球直连", "🚀 节点选择" ] },
-    { "tag": "🪟 微软服务", "type": "selector", "outbounds": [ "🎯 全球直连", "🚀 节点选择" ] },
-    { "tag": "🇬 谷歌服务", "type": "selector", "outbounds": [ "🎯 全球直连", "🚀 节点选择" ] },
-    { "tag": "🍎 苹果服务", "type": "selector", "outbounds": [ "🎯 全球直连", "🚀 节点选择" ] },
-    { "tag": "🌍 国外媒体", "type": "selector", "outbounds": [ "🚀 节点选择", "🇭🇰 香港节点", "🇹🇼 台湾节点", "🇯🇵 日本节点", "🇸🇬 新加坡节点", "🇺🇸 美国节点" ] },
-    { "tag": "🎮 游戏平台", "type": "selector", "outbounds": [ "🚀 节点选择", "🇭🇰 香港节点", "🇹🇼 台湾节点", "🇯🇵 日本节点", "🇸🇬 新加坡节点", "🇺🇸 美国节点" ] },
-    { "tag": "🛡️ 直连域名", "type": "selector", "outbounds": [ "🎯 全球直连", "🚀 节点选择" ] },
-    { "tag": "🀄️ 直连 IP", "type": "selector", "outbounds": [ "🎯 全球直连", "🚀 节点选择" ] },
-    { "tag": "🧱 代理顶级域名", "type": "selector", "outbounds": [ "🚀 节点选择", "🎯 全球直连" ] },
-    { "tag": "🧱 代理域名", "type": "selector", "outbounds": [ "🚀 节点选择", "🎯 全球直连" ] },
-    { "tag": "📲 电报消息", "type": "selector", "outbounds": [ "🚀 节点选择", "🇭🇰 香港节点", "🇹🇼 台湾节点", "🇯🇵 日本节点", "🇸🇬 新加坡节点", "🇺🇸 美国节点" ] },
-    { "tag": "🔒 私有网络", "type": "selector", "outbounds": [ "🎯 全球直连" ] },
-    { "tag": "🐟 漏网之鱼", "type": "selector", "outbounds": [ "🚀 节点选择", "🇭🇰 香港节点", "🇹🇼 台湾节点", "🇯🇵 日本节点", "🇸🇬 新加坡节点", "🇺🇸 美国节点", "🎯 全球直连" ] },
-    { "tag": "🛑 广告域名", "type": "selector", "outbounds": [ "🔴 全球拦截", "🎯 全球直连" ] },
-    { "tag": "🔴 全球拦截", "type": "selector", "outbounds": [ "REJECT" ] },
-    { "tag": "🎯 全球直连", "type": "selector", "outbounds": [ "DIRECT"] },
-    { "tag": "REJECT", "type": "block" },
-    { "tag": "DIRECT", "type": "direct" },
-    { "tag": "GLOBAL", "type": "selector", "outbounds": [ "DIRECT", "REJECT", "🇭🇰 香港节点", "🇹🇼 台湾节点", "🇯🇵 日本节点", "🇸🇬 新加坡节点", "🇺🇸 美国节点" ] },
-
-    { "tag": "🇭🇰 香港节点", "type": "urltest", "providers": [ "🛫 机场订阅 " ], "includes": [ "(?i)(🇭🇰|港|hk|hongkong|hong kong)" ] },
-    { "tag": "🇹🇼 台湾节点", "type": "urltest", "providers": [ "🛫 机场订阅 " ], "includes": [ "(?i)(🇹🇼|台|tw|taiwan|tai wan)" ] },
-    { "tag": "🇯🇵 日本节点", "type": "urltest", "providers": [ "🛫 机场订阅 " ], "includes": [ "(?i)(🇯🇵|日|jp|japan)" ] },
-    { "tag": "🇸🇬 新加坡节点", "type": "urltest", "providers": [ "🛫 机场订阅 " ], "includes": [ "(?i)(🇸🇬|新|sg|singapore)" ] },
-    { "tag": "🇺🇸 美国节点", "type": "urltest", "tolerance": 100, "providers": [ "🛫 机场订阅 " ], "includes": [ "(?i)(🇺🇸|美|us|unitedstates|united states)" ] }
-  ],
-  "route": {
-    "rules": [
-      { "geosite": [ "private" ], "outbound": "🔒 私有网络" },
-      { "geosite": [ "ads" ], "outbound": "🛑 广告域名" },
-      { "geosite": [ "trackerslist" ], "outbound": "📋 Trackerslist" },
-      { "geosite": [ "microsoft-cn" ], "outbound": "🪟 微软服务" },
-      { "geosite": [ "apple-cn" ], "outbound": "🍎 苹果服务" },
-      { "geosite": [ "google-cn" ], "outbound": "🇬 谷歌服务" },
-      { "geosite": [ "games-cn" ], "outbound": "🎮 游戏服务" },
-      { "geosite": [ "media" ], "outbound": "🌍 国外媒体" },
-      { "geosite": [ "games" ], "outbound": "🎮 游戏平台" },
-      { "geosite": [ "ai" ], "outbound": "🤖 AI 平台" },
-      { "geosite": [ "networktest" ], "outbound": "📈 网络测试" },
-      { "geosite": [ "tld-proxy" ], "outbound": "🧱 代理顶级域名" },
-      // 任选一
-      { "geosite": [ "gfw" ], "outbound": "🧱 代理域名" },
-      // 任选一
-      { "geosite": [ "proxy" ], "outbound": "🧱 代理域名" },
-      { "geosite": [ "cn" ], "outbound": "🛡️ 直连域名" },
-      { "geoip": [ "private" ], "outbound": "🔒 私有网络", "skip_resolve": true },
-      { "geoip": [ "cn" ], "outbound": "🀄️ 直连 IP" },
-      { "geoip": [ "media" ], "outbound": "🌍 国外媒体" },
-      { "geoip": [ "games" ], "outbound": "🎮 游戏平台" },
-      { "geoip": [ "telegram" ], "outbound": "📲 电报消息", "skip_resolve": true }
-    ],
-    "geosite": {
-      "path": "./geodata/geosite.db",
-      "download_url": "https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-geodata/geosite-all.db"
-    },
-    "geoip": {
-      "path": "./geodata/geoip.db",
-      "download_url": "https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-geodata/geoip.db"
-    }
-  }
-}
 ```
 </details>
 

@@ -110,17 +110,9 @@ jobs:
           mv -f ./mydata/cn-lite ./mydata/cn
           go run ./ --datapath=./mydata/ --outputname geosite-mini.dat
 
-      - name: Generate `sing-box` geodata
-        run: |
-          cd ./community/ || exit 1
-          go install -trimpath -ldflags="-s -w -buildid=" github.com/metacubex/geo/cmd/geo@master
-          for file in $(ls *.dat | sed 's/\.dat$//'); do
-            geo convert site -i v2ray -o sing -f "./${file}.db" "./${file}.dat"
-          done
-
       - name: Get geoip relative files
         run: |
-          mkdir -p ./mihomo-geodata/ ./sing-box-geodata/
+          mkdir -p ./mihomo-geodata/
           # Download mihomo geoip files (.mmdb)
           mihomo_mmdb=($(curl -sSL https://api.github.com/repos/DustinWin/geoip/releases | grep '"browser_download_url"' | grep '.mmdb' | awk -F '"' '{print $4}'))
           count_mihomo_mmdb=${#mihomo_mmdb[@]}
@@ -135,21 +127,11 @@ jobs:
             wget -P ./community/ "${mihomo_others[i]}"
           done
 
-          # Download `sing-box` all geoip files
-          singbox_all=($(curl -sSL https://api.github.com/repos/DustinWin/geoip/releases | grep '"browser_download_url"' | grep '/sing-box-geodata/' | awk -F '"' '{print $4}'))
-          count_singbox_all=${#singbox_all[@]}
-          for ((i = 0; i < count_singbox_all; i++)); do
-            wget -P ./community/ "${singbox_all[i]}"
-          done
-
-      - name: Move `mihomo` and `sing-box` geodata files
+      - name: Move `mihomo` geodata files
         run: |
           cd ./community/ || exit 1
           for file in $(ls *.dat *.metadb); do
             install -Dp "./${file}" ../mihomo-geodata/
-          done
-          for file in $(ls *.db); do
-            install -Dp "./${file}" ../sing-box-geodata/
           done
           rm -rf ../custom* ../community*
 
@@ -352,30 +334,6 @@ jobs:
           git remote add origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
           git push -f origin mihomo-ruleset
 
-      - name: Release and upload `sing-box-geodata` assets
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          release_name: sing-box-geodata
-          tag: sing-box-geodata
-          overwrite: true
-          body: |
-            [sing-box 内核](https://github.com/SagerNet/sing-box) geodata 文件
-            geodata 文件更新于 ${{ env.update_version }}
-          file_glob: true
-          file: ./sing-box-geodata/*
-
-      - name: Commit and push `sing-box-geodata` branch
-        run: |
-          cd ./sing-box-geodata/ || exit 1
-          git init
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git checkout -b sing-box-geodata
-          git add . && git commit -m "sing-box 内核 geodata 文件更新于 ${update_version}"
-          git remote add origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
-          git push -f origin sing-box-geodata
-
       - name: Release and upload `sing-box-ruleset-compatible` assets
         uses: svenstaro/upload-release-action@v2
         with:
@@ -447,10 +405,6 @@ jobs:
           cd ./mihomo-geodata/ || exit 1
           for file in $(ls); do
             curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@mihomo-geodata/${file}"
-          done
-          cd ../sing-box-geodata/ || exit 1
-          for file in $(ls); do
-            curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@sing-box-geodata/${file}"
           done
           cd ../mihomo-ruleset/ || exit 1
           for file in $(ls); do
