@@ -1210,7 +1210,7 @@ rules:
 
 ## 4. sing-box 内核文件使用
 注：
-- 1. [sing-box-ruleset](https://github.com/DustinWin/ruleset_geodata/releases/tag/sing-box-ruleset) 规则集文件版本始终与 [sing-box 内核 Release 最新版](https://github.com/SagerNet/sing-box/releases/latest)保持对应；[sing-box-ruleset-compatible](https://github.com/DustinWin/ruleset_geodata/releases/tag/sing-box-ruleset-compatible) 规则集文件版本始终与当前 [sing-box 内核 Release 最新版](https://github.com/SagerNet/sing-box/releases/latest)的上一个 Release 版本对应。详见：[sing-box 源文件格式](https://sing-box.sagernet.org/zh/configuration/rule-set/source-format/)
+- 1. [sing-box-ruleset](https://github.com/DustinWin/ruleset_geodata/releases/tag/sing-box-ruleset) 规则集文件版本为 [sing-box 规则集版本](https://sing-box.sagernet.org/zh/configuration/rule-set/source-format/#_2)最新版；[sing-box-ruleset-compatible](https://github.com/DustinWin/ruleset_geodata/releases/tag/sing-box-ruleset-compatible) 规则集文件版本为 [sing-box 规则集版本](https://sing-box.sagernet.org/zh/configuration/rule-set/source-format/#_2)最新版的上一个版本
 - 2. 须手动新建“*ruleset*”文件夹，否则规则集文件不会保存在本地。如导入 [ShellCrash](https://github.com/juewuy/ShellCrash)，可先连接 SSH 后执行命令 `mkdir -p $CRASHDIR/ruleset/`
 - 3. 以下只是节选，请酌情套用
 

@@ -17,13 +17,11 @@ jobs:
       - name: Set variables
         run: |
           echo "update_version=$(date -d '+8 hours' +%Y-%m-%d)" >> ${GITHUB_ENV}
-          echo "singbox_core_release_version=$(curl -sSL https://api.github.com/repos/SagerNet/sing-box/releases/latest | jq -r '.tag_name' | sed -E 's/([0-9]+)$/0/')" >> ${GITHUB_ENV}
-          echo "singbox_core_last1_version=$(curl -sSL https://raw.githubusercontent.com/SagerNet/sing-box/docs/configuration/rule-set/source-format/index.html | awk '/<li>/ {last=$0} END {print last}' | sed -n 's/.*\([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p')" >> ${GITHUB_ENV}
-          echo "singbox_core_last2_version=$(curl -sSL https://raw.githubusercontent.com/SagerNet/sing-box/docs/configuration/rule-set/source-format/index.html | awk '/<li>/{lines[++count]=$0} END{print lines[count-1]}' | sed -n 's/.*\([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p')" >> ${GITHUB_ENV}
-          echo "singbox_core_last3_version=$(curl -sSL https://raw.githubusercontent.com/SagerNet/sing-box/docs/configuration/rule-set/source-format/index.html | awk '/<li>/{lines[++count]=$0} END{print lines[count-2]}' | sed -n 's/.*\([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p')" >> ${GITHUB_ENV}
-          echo "singbox_rules_last1_version=$(curl -sSL https://raw.githubusercontent.com/SagerNet/sing-box/docs/configuration/rule-set/source-format/index.html | awk '/<li>/ {last=$0} END {print last}' | sed -n 's/^<li>\([0-9]\+\).*/\1/p')" >> ${GITHUB_ENV}
-          echo "singbox_rules_last2_version=$(curl -sSL https://raw.githubusercontent.com/SagerNet/sing-box/docs/configuration/rule-set/source-format/index.html | awk '/<li>/{lines[++count]=$0} END{print lines[count-1]}' | sed -n 's/^<li>\([0-9]\+\).*/\1/p')" >> ${GITHUB_ENV}
-          echo "singbox_rules_last3_version=$(curl -sSL https://raw.githubusercontent.com/SagerNet/sing-box/docs/configuration/rule-set/source-format/index.html | awk '/<li>/{lines[++count]=$0} END{print lines[count-2]}' | sed -n 's/^<li>\([0-9]\+\).*/\1/p')" >> ${GITHUB_ENV}
+          echo "singbox_core_release_version=$(curl -sSL https://api.github.com/repos/SagerNet/sing-box/releases/latest | jq -r '.tag_name' | sed -E -e 's/([0-9]+)$/0/' -e 's/^v//')" >> ${GITHUB_ENV}
+          echo "singbox_core_latest_version=$(curl -sSL https://raw.githubusercontent.com/SagerNet/sing-box/docs/configuration/rule-set/source-format/index.html | awk '/<li>/ {last=$0} END {print last}' | sed -n 's/.*\([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p')" >> ${GITHUB_ENV}
+          echo "singbox_core_compatible_version=$(curl -sSL https://raw.githubusercontent.com/SagerNet/sing-box/docs/configuration/rule-set/source-format/index.html | awk '/<li>/{lines[++count]=$0} END{print lines[count-1]}' | sed -n 's/.*\([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p')" >> ${GITHUB_ENV}
+          echo "singbox_rules_latest_version=$(curl -sSL https://raw.githubusercontent.com/SagerNet/sing-box/docs/configuration/rule-set/source-format/index.html | awk '/<li>/ {last=$0} END {print last}' | sed -n 's/^<li>\([0-9]\+\).*/\1/p')" >> ${GITHUB_ENV}
+          echo "singbox_rules_compatible_version=$(curl -sSL https://raw.githubusercontent.com/SagerNet/sing-box/docs/configuration/rule-set/source-format/index.html | awk '/<li>/{lines[++count]=$0} END{print lines[count-1]}' | sed -n 's/^<li>\([0-9]\+\).*/\1/p')" >> ${GITHUB_ENV}
           echo "domains_download_url=https://github.com/DustinWin/domain-list-custom/releases/download/domains" >> ${GITHUB_ENV}
           echo "ips_download_url=https://github.com/DustinWin/geoip/releases/download/ips" >> ${GITHUB_ENV}
         shell: bash
@@ -248,59 +246,59 @@ jobs:
 
       - name: Generate `sing-box` rule_set (srs) and move .json files
         run: |
-          if [[ "${{ env.singbox_core_last1_version }}" == "${{ env.singbox_core_release_version }}" ]]; then
+          if [[ "${{ env.singbox_core_latest_version }}" == "${{ env.singbox_core_release_version }}" ]]; then
             # Setting `sing-box` core&ruleset environment variables
-            echo "singbox_core_old_version=${{ env.singbox_core_last2_version }}" >> $GITHUB_ENV
-            echo "singbox_core_new_version=${{ env.singbox_core_last1_version }}" >> $GITHUB_ENV
-            echo "singbox_ruleset_old_version=${{ env.singbox_rules_last2_version }}" >> $GITHUB_ENV
-            echo "singbox_ruleset_new_version=${{ env.singbox_rules_last1_version }}" >> $GITHUB_ENV
+            echo "singbox_core_old_version=${{ env.singbox_core_compatible_version }}" >> $GITHUB_ENV
+            echo "singbox_core_new_version=${{ env.singbox_core_latest_version }}" >> $GITHUB_ENV
+            echo "singbox_ruleset_old_version=${{ env.singbox_rules_compatible_version }}" >> $GITHUB_ENV
+            echo "singbox_ruleset_new_version=${{ env.singbox_rules_latest_version }}" >> $GITHUB_ENV
             echo "singbox_equal=true" >> $GITHUB_ENV
 
             # Generate `sing-box` rule_set (compatible)
-            curl -L "https://github.com/SagerNet/sing-box/releases/download/v${{ env.singbox_core_last2_version }}/sing-box-${{ env.singbox_core_last2_version }}-linux-amd64.tar.gz" | tar -zx -C ./tools/
-            mv -f "./tools/sing-box-${{ env.singbox_core_last2_version }}-linux-amd64/sing-box" ./tools/sing-box
+            curl -L "https://github.com/SagerNet/sing-box/releases/download/v${{ env.singbox_core_compatible_version }}/sing-box-${{ env.singbox_core_compatible_version }}-linux-amd64.tar.gz" | tar -zx -C ./tools/
+            mv -f "./tools/sing-box-${{ env.singbox_core_compatible_version }}-linux-amd64/sing-box" ./tools/sing-box
             mkdir -p ./sing-box-ruleset-compatible/
             cd ./tools/
-            sed -i 's/"version": 1/"version": ${{ env.singbox_rules_last2_version }}/' ./convert.sh
+            sed -i 's/"version": 1/"version": ${{ env.singbox_rules_compatible_version }}/' ./convert.sh
             chmod +x ./convert.sh && ./convert.sh
             mv -f ./*.json ./*.srs ../sing-box-ruleset-compatible/
             rm -rf ./sing-box*
 
             # Generate `sing-box` rule_set
             cd ../
-            curl -L "https://github.com/SagerNet/sing-box/releases/download/v${{ env.singbox_core_last1_version }}/sing-box-${{ env.singbox_core_last1_version }}-linux-amd64.tar.gz" | tar -zx -C ./tools/
-            mv -f "./tools/sing-box-${{ env.singbox_core_last1_version }}-linux-amd64/sing-box" ./tools/sing-box
+            curl -L "https://github.com/DustinWin/proxy-tools/releases/download/sing-box/sing-box-release-linux-amd64.tar.gz" | tar -zx -C ./tools/
+            mv -f "./tools/CrashCore" ./tools/sing-box
             mkdir -p ./sing-box-ruleset/
             cd ./tools/
-            sed -i 's/"version": ${{ env.singbox_rules_last2_version }}/"version": ${{ env.singbox_rules_last1_version }}/' ./convert.sh
+            sed -i 's/"version": ${{ env.singbox_rules_compatible_version }}/"version": ${{ env.singbox_rules_latest_version }}/' ./convert.sh
             chmod +x ./convert.sh && ./convert.sh
             mv -f ./*.json ./*.srs ../sing-box-ruleset/
             rm -rf ./sing-box* ./rules*
           else
             # Setting `sing-box` core&ruleset environment variables
-            echo "singbox_core_old_version=${{ env.singbox_core_last3_version }}" >> $GITHUB_ENV
-            echo "singbox_core_new_version=${{ env.singbox_core_last2_version }}" >> $GITHUB_ENV
-            echo "singbox_ruleset_old_version=${{ env.singbox_rules_last3_version }}" >> $GITHUB_ENV
-            echo "singbox_ruleset_new_version=${{ env.singbox_rules_last2_version }}" >> $GITHUB_ENV
+            echo "singbox_core_old_version=${{ env.singbox_core_compatible_version }}" >> $GITHUB_ENV
+            echo "singbox_core_new_version=${{ env.singbox_core_latest_version }}" >> $GITHUB_ENV
+            echo "singbox_ruleset_old_version=${{ env.singbox_rules_compatible_version }}" >> $GITHUB_ENV
+            echo "singbox_ruleset_new_version=${{ env.singbox_rules_latest_version }}" >> $GITHUB_ENV
             echo "singbox_equal=false" >> $GITHUB_ENV
 
             # Generate `sing-box` rule_set (compatible)
-            wget "https://github.com/SagerNet/sing-box/releases/download/v${{ env.singbox_core_last3_version }}/sing-box-${{ env.singbox_core_last3_version }}-linux-amd64.tar.gz" -O - | tar -zxf - -C ./tools/
-            mv -f "./tools/sing-box-${{ env.singbox_core_last3_version }}-linux-amd64/sing-box" ./tools/sing-box
+            wget "https://github.com/DustinWin/proxy-tools/releases/download/sing-box/sing-box-release-linux-amd64.tar.gz" -O - | tar -zxf - -C ./tools/
+            mv -f "./tools/CrashCore" ./tools/sing-box
             mkdir -p ./sing-box-ruleset-compatible/
             cd ./tools/
-            sed -i 's/"version": 1/"version": ${{ env.singbox_rules_last3_version }}/' ./convert.sh
+            sed -i 's/"version": 1/"version": ${{ env.singbox_rules_compatible_version }}/' ./convert.sh
             chmod +x ./convert.sh && ./convert.sh
             mv -f ./*.json ./*.srs ../sing-box-ruleset-compatible/
             rm -rf ./sing-box*
 
             # Generate `sing-box` rule_set
             cd ../
-            curl -L "https://github.com/SagerNet/sing-box/releases/download/v${{ env.singbox_core_last2_version }}/sing-box-${{ env.singbox_core_last2_version }}-linux-amd64.tar.gz" | tar -zx -C ./tools/
-            mv -f "./tools/sing-box-${{ env.singbox_core_last2_version }}-linux-amd64/sing-box" ./tools/sing-box
+            curl -L "https://github.com/DustinWin/proxy-tools/releases/download/sing-box/sing-box-dev-linux-amd64.tar.gz" | tar -zx -C ./tools/
+            mv -f "./tools/CrashCore" ./tools/sing-box
             mkdir -p ./sing-box-ruleset/
             cd ./tools/
-            sed -i 's/"version": ${{ env.singbox_rules_last3_version }}/"version": ${{ env.singbox_rules_last2_version }}/' ./convert.sh
+            sed -i 's/"version": ${{ env.singbox_rules_compatible_version }}/"version": ${{ env.singbox_rules_latest_version }}/' ./convert.sh
             chmod +x ./convert.sh && ./convert.sh
             mv -f ./*.json ./*.srs ../sing-box-ruleset/
             rm -rf ./sing-box* ./rules*
@@ -413,7 +411,7 @@ jobs:
           overwrite: true
           body: |
             [sing-box 内核](https://github.com/SagerNet/sing-box) rule_set 规则集文件
-            适用于 v${{ env.singbox_core_new_version }} 系列版本的 sing-box 内核（`"version": ${{ env.singbox_ruleset_new_version }}`）
+            适用于 v${{ env.singbox_core_new_version }}（包含）+ 系列版本的 sing-box 内核（`"version": ${{ env.singbox_ruleset_new_version }}`）
             规则集文件更新于 ${{ env.update_version }}
           file_glob: true
           file: ./sing-box-ruleset/*
@@ -428,7 +426,7 @@ jobs:
           overwrite: true
           body: |
             [sing-box 内核](https://github.com/SagerNet/sing-box) rule_set 规则集文件
-            适用于 v${{ env.singbox_core_new_version }}（包含）+ 系列版本的 sing-box 内核（`"version": ${{ env.singbox_ruleset_new_version }}`）
+            适用于 v${{ env.singbox_core_new_version }} 系列版本的 sing-box 内核（`"version": ${{ env.singbox_ruleset_new_version }}`）
             规则集文件更新于 ${{ env.update_version }}
           file_glob: true
           file: ./sing-box-ruleset/*
