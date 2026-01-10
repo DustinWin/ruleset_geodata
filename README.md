@@ -1430,7 +1430,7 @@ rules:
   </tr>
   <tr>
     <td>DustinWin_Full.ini</td>
-    <td>全分组规则，包含所有规则集，如国外媒体和游戏平台分流等</td>
+    <td>全分组规则，包含所有规则集，如<a href="https://www.netflix.com">奈飞</a>和<a href="https://www.youtube.com">油管</a>等国外媒体和游戏平台分流</td>
     <td><a href="https://raw.githubusercontent.com/DustinWin/ruleset_geodata/master/rule_templates/DustinWin_Full.ini">点此查看</a></td>
     <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@master/rule_templates/DustinWin_Full.ini">点此查看</a></td>
     <td><a href="https://ghfast.top/https://raw.githubusercontent.com/DustinWin/ruleset_geodata/master/rule_templates/DustinWin_Full.ini">点此查看</a></td>
@@ -1444,14 +1444,14 @@ rules:
   </tr>
   <tr>
     <td>DustinWin_Lite.ini</td>
-    <td>精简规则，不包含国外媒体和游戏平台分流</td>
+    <td>精简规则，不包含奈飞和油管等国外媒体和游戏平台分流</td>
     <td><a href="https://raw.githubusercontent.com/DustinWin/ruleset_geodata/master/rule_templates/DustinWin_Lite.ini">点此查看</a></td>
     <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@master/rule_templates/DustinWin_Lite.ini">点此查看</a></td>
     <td><a href="https://ghfast.top/https://raw.githubusercontent.com/DustinWin/ruleset_geodata/master/rule_templates/DustinWin_Lite.ini">点此查看</a></td>
   </tr>
   <tr>
     <td>DustinWin_Lite_NoAds.ini</td>
-    <td>无广告精简规则，不包含国外媒体、游戏平台分流和广告规则集</td>
+    <td>无广告精简规则，不包含奈飞和油管等国外媒体、游戏平台分流和广告规则集</td>
     <td><a href="https://raw.githubusercontent.com/DustinWin/ruleset_geodata/master/rule_templates/DustinWin_Lite_NoAds.ini">点此查看</a></td>
     <td><a href="https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@master/rule_templates/DustinWin_Lite_NoAds.ini">点此查看</a></td>
     <td><a href="https://ghfast.top/https://raw.githubusercontent.com/DustinWin/ruleset_geodata/master/rule_templates/DustinWin_Lite_NoAds.ini">点此查看</a></td>
