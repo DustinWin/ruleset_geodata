@@ -215,7 +215,7 @@ jobs:
 
       - name: Generate `mihomo` rule-set (mrs) and move .list files
         run: |
-          curl -L https://github.com/DustinWin/proxy-tools/releases/download/mihomo/mihomo-meta-linux-amd64v3.tar.gz | tar -zx -C ./tools/
+          curl -L https://github.com/DustinWin/proxy-tools/releases/download/mihomo/mihomo-meta-linux-amd64-v3.tar.gz | tar -zx -C ./tools/
           mv -f ./tools/CrashCore ./tools/mihomo
 
           cd ./tools/
@@ -255,7 +255,7 @@ jobs:
 
             # Generate `sing-box` rule_set
             cd ../
-            curl -L "https://github.com/DustinWin/proxy-tools/releases/download/sing-box/sing-box-ref1nd-main-linux-amd64v3.tar.gz" | tar -zx -C ./tools/
+            curl -L "https://github.com/DustinWin/proxy-tools/releases/download/sing-box/sing-box-ref1nd-main-linux-amd64-v3.tar.gz" | tar -zx -C ./tools/
             mv -f "./tools/CrashCore" ./tools/sing-box
             mkdir -p ./sing-box-ruleset/
             cd ./tools/
@@ -272,7 +272,7 @@ jobs:
             echo "singbox_equal=false" >> $GITHUB_ENV
 
             # Generate `sing-box` rule_set (compatible)
-            wget "https://github.com/DustinWin/proxy-tools/releases/download/sing-box/sing-box-ref1nd-main-linux-amd64v3.tar.gz" -O - | tar -zxf - -C ./tools/
+            wget "https://github.com/DustinWin/proxy-tools/releases/download/sing-box/sing-box-ref1nd-main-linux-amd64-v3.tar.gz" -O - | tar -zxf - -C ./tools/
             mv -f "./tools/CrashCore" ./tools/sing-box
             mkdir -p ./sing-box-ruleset-compatible/
             cd ./tools/
@@ -283,7 +283,7 @@ jobs:
 
             # Generate `sing-box` rule_set
             cd ../
-            curl -L "https://github.com/DustinWin/proxy-tools/releases/download/sing-box/sing-box-ref1nd-dev-linux-amd64v3.tar.gz" | tar -zx -C ./tools/
+            curl -L "https://github.com/DustinWin/proxy-tools/releases/download/sing-box/sing-box-ref1nd-dev-linux-amd64-v3.tar.gz" | tar -zx -C ./tools/
             mv -f "./tools/CrashCore" ./tools/sing-box
             mkdir -p ./sing-box-ruleset/
             cd ./tools/
