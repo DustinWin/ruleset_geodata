@@ -56,33 +56,40 @@ jobs:
 
       - name: Generate `mihomo` geodata
         run: |
-          mkdir -p ./community/mydata/
-          archs1=(private ads trackerslist microsoft-cn apple-cn google-cn games-cn media games ai networktest tld-proxy gfw proxy cn)
-          archs2=(private ads trackerslist microsoft-cn apple-cn google-cn games-cn ai networktest tld-proxy gfw proxy cn)
-          archs3=(private microsoft-cn apple-cn google-cn games-cn tld-proxy gfw cn-lite)
+          mkdir -p ./tmp/ ./community/mydata/
+          archs1=(ads private trackerslist microsoft-cn apple-cn google-cn games-cn games media ai networktest tld-proxy gfw proxy cn)
+          archs2=(ads private trackerslist microsoft-cn apple-cn google-cn games-cn ai networktest tld-proxy gfw proxy cn)
+          archs3=(private microsoft-cn apple-cn google-cn games-cn gfw cn)
+
+          # Ready for `fakeip-filter` and `fakeip-filter-lite`
+          curl -sSL "${domains_download_url}/fakeip-filter.list" | awk '!/(DOMAIN-REGEX,|ntp|stun|time)/' | sed -e 's/DOMAIN,/full:/' -e 's/DOMAIN-SUFFIX,//' > ./tmp/temp-fakeip-filter.txt
+          cat <<EOF >> ./tmp/temp-fakeip-filter.txt
+          keyword:ntp
+          keyword:stun
+          keyword:time
+          EOF
+          curl -sSL "${domains_download_url}/fakeip-filter.list" | awk '/DOMAIN-REGEX,/ && !/(ntp|stun|time)/' | sed 's/DOMAIN-REGEX,/regexp:/' >> ./tmp/temp-fakeip-filter.txt
+          sort --ignore-case ./tmp/temp-fakeip-filter.txt > ./tmp/fakeip-filter.txt
+
+          curl -sSL "${domains_download_url}/fakeip-filter-lite.list" | awk '!/(DOMAIN-REGEX,|ntp|stun|time)/' | sed -e 's/DOMAIN,/full:/' -e 's/DOMAIN-SUFFIX,//' > ./tmp/temp-fakeip-filter-lite.txt
+          cat <<EOF >> ./tmp/temp-fakeip-filter-lite.txt
+          keyword:ntp
+          keyword:stun
+          keyword:time
+          EOF
+          sort --ignore-case ./tmp/temp-fakeip-filter-lite.txt > ./tmp/fakeip-filter-lite.txt
 
           # Generate `mihomo` geosite-all.dat
           cd ./community/
           for arch1 in "${archs1[@]}"; do
             curl -sSL "${domains_download_url}/${arch1}.list" | sed -e 's/DOMAIN,/full:/' -e 's/DOMAIN-SUFFIX,//' -e 's/DOMAIN-KEYWORD,/keyword:/' -e 's/DOMAIN-REGEX,/regexp:/' > "./mydata/${arch1}"
           done
-          curl -sSL "${domains_download_url}/fakeip-filter.list" | awk '!/(DOMAIN-REGEX,|ntp|stun|time)/' | sed -e 's/DOMAIN,/full:/' -e 's/DOMAIN-SUFFIX,//' > ./mydata/fakeip-filter
-          cat <<EOF >> ./mydata/fakeip-filter
-          keyword:ntp
-          keyword:stun
-          keyword:time
-          EOF
-          curl -sSL "${domains_download_url}/fakeip-filter.list" | awk '/DOMAIN-REGEX,/ && !/(ntp|stun|time)/' | sed 's/DOMAIN-REGEX,/regexp:/' >> ./mydata/fakeip-filter
+          cp -f ../tmp/fakeip-filter.txt ./mydata/fakeip-filter
           go run ./ --datapath=./mydata/ --outputname geosite-all.dat
 
           # Generate `mihomo` geosite-all-lite.dat
-          rm -f ./mydata/ads ./mydata/fakeip-filter
-          curl -sSL "${domains_download_url}/fakeip-filter-lite.list" | awk '!/(DOMAIN-REGEX,|ntp|stun|time)/' | sed -e 's/DOMAIN,/full:/' -e 's/DOMAIN-SUFFIX,//' > ./mydata/fakeip-filter-lite
-          cat <<EOF >> ./mydata/fakeip-filter-lite
-          keyword:ntp
-          keyword:stun
-          keyword:time
-          EOF
+          rm -f ./mydata/ads
+          cp -f ../tmp/fakeip-filter-lite.txt ./mydata/fakeip-filter
           go run ./ --datapath=./mydata/ --outputname geosite-all-lite.dat
 
           # Generate `mihomo` geosite.dat
@@ -90,23 +97,12 @@ jobs:
           for arch2 in "${archs2[@]}"; do
             curl -sSL "${domains_download_url}/${arch2}.list" | sed -e 's/DOMAIN,/full:/' -e 's/DOMAIN-SUFFIX,//' -e 's/DOMAIN-KEYWORD,/keyword:/' -e 's/DOMAIN-REGEX,/regexp:/' > "./mydata/${arch2}"
           done
-          curl -sSL "${domains_download_url}/fakeip-filter.list" | awk '!/DOMAIN-REGEX,/' | sed -e 's/DOMAIN,/full:/' -e 's/DOMAIN-SUFFIX,//' > ./mydata/fakeip-filter
-          cat <<EOF >> ./mydata/fakeip-filter
-          keyword:ntp
-          keyword:stun
-          keyword:time
-          EOF
-          curl -sSL "${domains_download_url}/fakeip-filter.list" | awk '/DOMAIN-REGEX,/ && !/(ntp|stun|time)/' | sed 's/DOMAIN-REGEX,/regexp:/' >> ./mydata/fakeip-filter
+          cp -f ../tmp/fakeip-filter.txt ./mydata/fakeip-filter
           go run ./ --datapath=./mydata/ --outputname geosite.dat
 
           # Generate `mihomo` geosite-lite.dat
-          rm -f ./mydata/ads ./mydata/fakeip-filter
-          curl -sSL "${domains_download_url}/fakeip-filter-lite.list" | awk '!/DOMAIN-REGEX,/' | sed -e 's/DOMAIN,/full:/' -e 's/DOMAIN-SUFFIX,//' > ./mydata/fakeip-filter-lite
-          cat <<EOF >> ./mydata/fakeip-filter-lite
-          keyword:ntp
-          keyword:time
-          keyword:stun
-          EOF
+          rm -f ./mydata/ads
+          cp -f ../tmp/fakeip-filter-lite.txt ./mydata/fakeip-filter
           go run ./ --datapath=./mydata/ --outputname geosite-lite.dat
 
           # Generate `mihomo` geosite-mini.dat
@@ -114,7 +110,6 @@ jobs:
           for arch3 in "${archs3[@]}"; do
             curl -sSL "${domains_download_url}/${arch3}.list" | sed -e 's/DOMAIN,/full:/' -e 's/DOMAIN-SUFFIX,//' -e 's/DOMAIN-KEYWORD,/keyword:/' -e 's/DOMAIN-REGEX,/regexp:/' > "./mydata/${arch3}"
           done
-          mv -f ./mydata/cn-lite ./mydata/cn
           go run ./ --datapath=./mydata/ --outputname geosite-mini.dat
 
       - name: Get geoip relative files
@@ -145,15 +140,15 @@ jobs:
       - name: Download `mihomo` rule-set files
         run: |
           mkdir -p ./mihomo-ruleset/
-          domains=(ads trackerslist microsoft-cn apple-cn google-cn games-cn netflix disney max primevideo appletv youtube tiktok bilibili spotify media games ai networktest tld-proxy gfw proxy cn cn-lite)
-          ips=(netflixip mediaip gamesip privateip cnip telegramip)
+          domains=(ads trackerslist microsoft-cn apple-cn google-cn games-cn games netflix disney max primevideo appletv youtube tiktok bilibili spotify media ai networktest tld-proxy gfw proxy cn)
+          ips=(privateip cnip telegramip gamesip netflixip mediaip)
 
           for domain in "${domains[@]}"; do
             mkdir -p "./tools/domains/${domain}/"
             curl -sSL "${domains_download_url}/${domain}.list" | awk '/(DOMAIN,|DOMAIN-SUFFIX,)/' | sed -e 's/DOMAIN,//' -e 's/DOMAIN-SUFFIX,/\+\./' >> "./tools/domains/${domain}/${domain}.list"
           done
 
-          mkdir -p ./tmp/ ./tools/domains/fakeip-filter/
+          mkdir -p ./tools/domains/fakeip-filter/
           curl -sSL "${domains_download_url}/fakeip-filter.list" | awk '!/DOMAIN-REGEX,/' | sed -e 's/DOMAIN,//' -e 's/DOMAIN-SUFFIX,/\+\./' > ./tmp/temp-fakeip-filter-domains.txt
           curl -sSL "${domains_download_url}/fakeip-filter.list" | awk '/DOMAIN-REGEX,/' | sed -e 's/\\s/ /' -e 's/\\./\./g' -e 's/\[\^.\]+/*/g' -e 's/\^\.\*/\^\+/' -e 's/.*\^//; s/\$//' >> ./tmp/temp-fakeip-filter-domains.txt
           sort --ignore-case ./tmp/temp-fakeip-filter-domains.txt >> ./tools/domains/fakeip-filter/fakeip-filter.list
@@ -178,8 +173,8 @@ jobs:
 
       - name: Download `sing-box` rule_set files
         run: |
-          domains=(private ads trackerslist microsoft-cn apple-cn google-cn games-cn netflix disney max primevideo appletv youtube tiktok bilibili spotify media games ai networktest tld-proxy gfw proxy cn cn-lite)
-          ips=(netflixip mediaip gamesip privateip cnip telegramip)
+          domains=(ads private trackerslist microsoft-cn apple-cn google-cn games-cn games netflix disney max primevideo appletv youtube tiktok bilibili spotify media ai networktest tld-proxy gfw proxy cn)
+          ips=(privateip cnip telegramip gamesip netflixip mediaip)
 
           for domain in "${domains[@]}"; do
             mkdir -p "./tools/rules/${domain}/"
