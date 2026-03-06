@@ -14,21 +14,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout `reF1nd-main`
+      - name: Checkout `reF1nd-stable`
         uses: actions/checkout@v6
         with:
           repository: reF1nd/sing-box
-          ref: reF1nd-main
+          ref: reF1nd-stable
           fetch-depth: 0
 
       - name: Set variables
         run: |
           echo "update_version=$(date -d '+8 hours' +%Y-%m-%d)" >> ${GITHUB_ENV}
           echo "singbox_core_release_version=$(git tag -l --sort=v:refname | grep -Po '^v?\K[0-9]+\.[0-9]+\.[0-9]+-reF1nd.*' | sed 's/-.*//' |tail -n1)" >> ${GITHUB_ENV}
-          echo "singbox_core_latest_version=$(curl -sSL https://raw.githubusercontent.com/reF1nd/sing-box/reF1nd-dev/docs/configuration/rule-set/source-format.md | awk '/*/ {last=$0} END {print last}' | sed -n 's/.*\([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p')" >> ${GITHUB_ENV}
-          echo "singbox_core_compatible_version=$(curl -sSL https://raw.githubusercontent.com/reF1nd/sing-box/reF1nd-dev/docs/configuration/rule-set/source-format.md | awk '/*/{lines[++count]=$0} END{print lines[count-1]}' | sed -n 's/.*\([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p')" >> ${GITHUB_ENV}
-          echo "singbox_rules_latest_version=$(curl -sSL https://raw.githubusercontent.com/reF1nd/sing-box/reF1nd-dev/docs/configuration/rule-set/source-format.md | awk '/*/ {last=$0} END {print last}' | sed -n 's/^* \([0-9]\+\):.*/\1/p')" >> ${GITHUB_ENV}
-          echo "singbox_rules_compatible_version=$(curl -sSL https://raw.githubusercontent.com/reF1nd/sing-box/reF1nd-dev/docs/configuration/rule-set/source-format.md | awk '/*/{lines[++count]=$0} END{print lines[count-1]}' | sed -n 's/^* \([0-9]\+\):.*/\1/p')" >> ${GITHUB_ENV}
+          echo "singbox_core_latest_version=$(curl -sSL https://raw.githubusercontent.com/reF1nd/sing-box/reF1nd-testing/docs/configuration/rule-set/source-format.md | awk '/*/ {last=$0} END {print last}' | sed -n 's/.*\([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p')" >> ${GITHUB_ENV}
+          echo "singbox_core_compatible_version=$(curl -sSL https://raw.githubusercontent.com/reF1nd/sing-box/reF1nd-testing/docs/configuration/rule-set/source-format.md | awk '/*/{lines[++count]=$0} END{print lines[count-1]}' | sed -n 's/.*\([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p')" >> ${GITHUB_ENV}
+          echo "singbox_rules_latest_version=$(curl -sSL https://raw.githubusercontent.com/reF1nd/sing-box/reF1nd-testing/docs/configuration/rule-set/source-format.md | awk '/*/ {last=$0} END {print last}' | sed -n 's/^* \([0-9]\+\):.*/\1/p')" >> ${GITHUB_ENV}
+          echo "singbox_rules_compatible_version=$(curl -sSL https://raw.githubusercontent.com/reF1nd/sing-box/reF1nd-testing/docs/configuration/rule-set/source-format.md | awk '/*/{lines[++count]=$0} END{print lines[count-1]}' | sed -n 's/^* \([0-9]\+\):.*/\1/p')" >> ${GITHUB_ENV}
           echo "domains_download_url=https://github.com/DustinWin/domain-list-custom/releases/download/domains" >> ${GITHUB_ENV}
           echo "ips_download_url=https://github.com/DustinWin/geoip/releases/download/ips" >> ${GITHUB_ENV}
         shell: bash
@@ -251,7 +251,7 @@ jobs:
 
             # Generate `sing-box` rule_set
             cd ../
-            curl -L "https://github.com/DustinWin/proxy-tools/releases/download/sing-box/sing-box-ref1nd-main-linux-amd64-v3.tar.gz" | tar -zx -C ./tools/
+            curl -L "https://github.com/DustinWin/proxy-tools/releases/download/sing-box/sing-box-ref1nd-stable-linux-amd64-v3.tar.gz" | tar -zx -C ./tools/
             mv -f "./tools/CrashCore" ./tools/sing-box
             mkdir -p ./sing-box-ruleset/
             cd ./tools/
@@ -268,7 +268,7 @@ jobs:
             echo "singbox_equal=false" >> $GITHUB_ENV
 
             # Generate `sing-box` rule_set (compatible)
-            wget "https://github.com/DustinWin/proxy-tools/releases/download/sing-box/sing-box-ref1nd-main-linux-amd64-v3.tar.gz" -O - | tar -zxf - -C ./tools/
+            wget "https://github.com/DustinWin/proxy-tools/releases/download/sing-box/sing-box-ref1nd-stable-linux-amd64-v3.tar.gz" -O - | tar -zxf - -C ./tools/
             mv -f "./tools/CrashCore" ./tools/sing-box
             mkdir -p ./sing-box-ruleset-compatible/
             cd ./tools/
@@ -279,7 +279,7 @@ jobs:
 
             # Generate `sing-box` rule_set
             cd ../
-            curl -L "https://github.com/DustinWin/proxy-tools/releases/download/sing-box/sing-box-ref1nd-dev-linux-amd64-v3.tar.gz" | tar -zx -C ./tools/
+            curl -L "https://github.com/DustinWin/proxy-tools/releases/download/sing-box/sing-box-ref1nd-test-linux-amd64-v3.tar.gz" | tar -zx -C ./tools/
             mv -f "./tools/CrashCore" ./tools/sing-box
             mkdir -p ./sing-box-ruleset/
             cd ./tools/
