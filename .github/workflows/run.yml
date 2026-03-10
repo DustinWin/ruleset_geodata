@@ -211,8 +211,8 @@ jobs:
 
       - name: Generate `mihomo` rule-set (mrs) and move .list files
         run: |
-          curl -L https://github.com/DustinWin/proxy-tools/releases/download/mihomo/mihomo-meta-linux-amd64-v3.tar.gz | tar -zx -C ./tools/
-          mv -f ./tools/CrashCore ./tools/mihomo
+          curl -o ./tools/mihomo -L https://github.com/DustinWin/proxy-tools/releases/download/mihomo/mihomo-meta-linux-amd64-v3.upx
+          chmod +x ./tools/mihomo
 
           cd ./tools/
           chmod +x ./mihomo
@@ -268,8 +268,8 @@ jobs:
             echo "singbox_equal=false" >> $GITHUB_ENV
 
             # Generate `sing-box` rule_set (compatible)
-            wget "https://github.com/DustinWin/proxy-tools/releases/download/sing-box/sing-box-ref1nd-stable-linux-amd64-v3.tar.gz" -O - | tar -zxf - -C ./tools/
-            mv -f "./tools/CrashCore" ./tools/sing-box
+            curl -o ./tools/sing-box -L https://github.com/DustinWin/proxy-tools/releases/download/sing-box/sing-box-ref1nd-stable-linux-amd64-v3.upx
+            chmod +x ./tools/sing-box
             mkdir -p ./sing-box-ruleset-compatible/
             cd ./tools/
             sed -i 's/"version": 1/"version": ${{ env.singbox_rules_compatible_version }}/' ./convert.sh
@@ -279,8 +279,8 @@ jobs:
 
             # Generate `sing-box` rule_set
             cd ../
-            curl -L "https://github.com/DustinWin/proxy-tools/releases/download/sing-box/sing-box-ref1nd-test-linux-amd64-v3.tar.gz" | tar -zx -C ./tools/
-            mv -f "./tools/CrashCore" ./tools/sing-box
+            curl -o ./tools/sing-box -L https://github.com/DustinWin/proxy-tools/releases/download/sing-box/sing-box-ref1nd-test-linux-amd64-v3.upx
+            chmod +x ./tools/sing-box
             mkdir -p ./sing-box-ruleset/
             cd ./tools/
             sed -i 's/"version": ${{ env.singbox_rules_compatible_version }}/"version": ${{ env.singbox_rules_latest_version }}/' ./convert.sh
