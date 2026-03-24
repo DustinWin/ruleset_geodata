@@ -19,7 +19,7 @@ jobs:
 
       - name: Sync upstream changes
         id: sync
-        uses: aormsby/Fork-Sync-With-Upstream-action@v3.4.1
+        uses: aormsby/Fork-Sync-With-Upstream-action@v3.4.2
         with:
           upstream_sync_repo: Loyalsoldier/v2ray-rules-dat
           upstream_sync_branch: master
