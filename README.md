@@ -7,11 +7,11 @@
 [mihomo 内核](https://github.com/MetaCubeX/mihomo) geodata 文件，包括：geosite.dat、geoip.dat、Country.mmdb 和 geoip.metadb、ASN.mmdb（仅限 mihomo 内核）等  
 ## 2. 数据源
 ① 每天凌晨 3 点（北京时间 UTC+8）自动构建，由上游项目 [DustinWin/domain-list-custom](https://github.com/DustinWin/domain-list-custom) 和 [DustinWin/geoip](https://github.com/DustinWin/geoip) 提供数据源，可查看[域名列表](https://github.com/DustinWin/domain-list-custom/tree/domains)和 [IP 段列表](https://github.com/DustinWin/geoip/tree/ips)  
-② `geosite,fakeip-filter,📌 fakeip 过滤` 源采用 [DustinWin/fake_ip_filter.list](https://github.com/DustinWin/ShellCrash/blob/dev/public/fake_ip_filter.list)（搭载 mihomo 内核或 [sing-box PuerNya 版内核](https://github.com/PuerNya/sing-box/tree/building)时，可使该规则集内的域名走 realip）  
+② `geosite,fakeip-filter,📌 fakeip 过滤` 源采用 [DustinWin/fake_ip_filter.list](https://github.com/DustinWin/ShellCrash/blob/dev/public/fake_ip_filter.list)（搭载 mihomo 内核或 [sing-box reF1nd 版内核](https://github.com/reF1nd/sing-box)时，可使该规则集内的域名走 realip）  
 ③ `geosite,fakeip-filter,📌 fakeip 过滤` （精简版）源采用 [DustinWin/fake_ip_filter.list](https://github.com/DustinWin/ShellCrash/blob/dev/public/fake_ip_filter.list)，仅保留主要域名（推荐搭配 [AdGuard Home](https://github.com/AdguardTeam/AdGuardHome) 且 DNS 配置 mix 混合模式时使用）  
 ④ `geosite,ads,🛑 广告域名` 源采用 [privacy-protection-tools/anti-AD](https://github.com/privacy-protection-tools/anti-AD)  
 ⑤ `geosite,private,🔒 私有网络` 源采用 [v2fly/domain-list-community/private](https://github.com/v2fly/domain-list-community/blob/master/data/private) 和 [blackmatrix7/ios_rule_script/Lan](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Clash/Lan)（仅域名）组合，并添加主流 [Dashboard 在线面板](https://github.com/DustinWin/proxy-tools/releases/tag/Dashboard)域名（`yacd.metacubex.one`、`metacubex.github.io`、`metacubexd.pages.dev` 和 `board.zash.run.place`）  
-⑥ `geosite,trackerslist,📋 Trackerslist` 源采用 [XIU2/TrackersListCollection](https://github.com/XIU2/TrackersListCollection/blob/master/all.txt)（仅域名）和 [ngosang/trackerslist](https://github.com/ngosang/trackerslist/blob/master/trackers_all.txt) 组合  
+⑥ `geosite,trackerslist,📋 Trackerslist` 源采用 [XIU2/TrackersListCollection](https://github.com/XIU2/TrackersListCollection/blob/master/all.txt)（仅域名）和 [ngosang/trackerslist](https://github.com/ngosang/trackerslist/blob/master/trackers_all.txt) 组合（若使用该规则集，仅需使其走 realip 即可）  
 ⑦ `geosite,microsoft-cn,🪟 微软服务` 源采用 [v2fly/domain-list-community/microsoft@cn](https://github.com/v2fly/domain-list-community/blob/master/data/microsoft)  
 ⑧ `geosite,apple-cn,🍎 苹果服务` 源采用 [v2fly/domain-list-community/apple@cn](https://github.com/v2fly/domain-list-community/blob/master/data/apple) 和 [felixonmars/dnsmasq-china-list/apple.china.conf](https://github.com/felixonmars/dnsmasq-china-list/blob/master/apple.china.conf) 组合  
 ⑨ `geosite,google-cn,🇬 谷歌服务` 源采用 [v2fly/domain-list-community/google@cn](https://github.com/v2fly/domain-list-community/blob/master/data/google) 和 [felixonmars/dnsmasq-china-list/google.china.conf](https://github.com/felixonmars/dnsmasq-china-list/blob/master/google.china.conf) 组合  
@@ -201,11 +201,10 @@ proxy-groups:
   - {name: 🇬 谷歌服务, type: select, proxies: [🎯 全球直连, 🚀 节点选择]}
   - {name: 🍎 苹果服务, type: select, proxies: [🎯 全球直连, 🚀 节点选择]}
   - {name: 🌍 国外媒体, type: select, proxies: [🚀 节点选择, 🇭🇰 香港节点, 🇹🇼 台湾节点, 🇯🇵 日本节点, 🇸🇬 新加坡节点, 🇺🇸 美国节点]}
-  - {name: 📋 Trackerslist, type: select, proxies: [🎯 全球直连, 🚀 节点选择]}
   - {name: 🇨🇳 国内域名, type: select, proxies: [🎯 全球直连, 🚀 节点选择]}
   - {name: 🀄️ 国内 IP, type: select, proxies: [🎯 全球直连, 🚀 节点选择]}
-  - {name: 🌎 国外顶级域名, type: select, proxies: [🚀 节点选择, 🎯 全球直连]}
-  - {name: 🌎 国外域名, type: select, proxies: [🚀 节点选择, 🎯 全球直连]}
+  - {name: 🌎 国外顶级域名, type: select, proxies: [🚀 节点选择, 🇭🇰 香港节点, 🇹🇼 台湾节点, 🇯🇵 日本节点, 🇸🇬 新加坡节点, 🇺🇸 美国节点]}
+  - {name: 🌎 国外域名, type: select, proxies: [🚀 节点选择, 🇭🇰 香港节点, 🇹🇼 台湾节点, 🇯🇵 日本节点, 🇸🇬 新加坡节点, 🇺🇸 美国节点]}
   - {name: 📲 电报消息, type: select, proxies: [🚀 节点选择, 🇭🇰 香港节点, 🇹🇼 台湾节点, 🇯🇵 日本节点, 🇸🇬 新加坡节点, 🇺🇸 美国节点]}
   - {name: 🔒 私有网络, type: select, proxies: [🎯 全球直连], hidden: true}
   - {name: 🐟 漏网之鱼, type: select, proxies: [🚀 节点选择, 🇭🇰 香港节点, 🇹🇼 台湾节点, 🇯🇵 日本节点, 🇸🇬 新加坡节点, 🇺🇸 美国节点, 🎯 全球直连]}
@@ -225,7 +224,6 @@ proxy-groups:
 rules:
   - GEOSITE,private,🔒 私有网络
   - GEOSITE,ads,🛑 广告域名
-  - GEOSITE,trackerslist,📋 Trackerslist
   - GEOSITE,microsoft-cn,🪟 微软服务
   - GEOSITE,apple-cn,🍎 苹果服务
   - GEOSITE,google-cn,🇬 谷歌服务
@@ -268,11 +266,10 @@ proxy-groups:
   - {name: 谷歌服务, type: select, proxies: [全球直连, 节点选择], icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/google-cn.png"}
   - {name: 苹果服务, type: select, proxies: [全球直连, 节点选择], icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/apple-cn.png"}
   - {name: 国外媒体, type: select, proxies: [节点选择, 香港节点, 台湾节点, 日本节点, 新加坡节点, 美国节点], icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/media.png"}
-  - {name: Trackerslist, type: select, proxies: [全球直连, 节点选择], icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/trackerslist.png"}
   - {name: 国内域名, type: select, proxies: [全球直连, 节点选择], icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/cn.png"}
   - {name: 国内 IP, type: select, proxies: [全球直连, 节点选择], icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/cnip.png"}
-  - {name: 国外顶级域名, type: select, proxies: [节点选择, 全球直连], icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/global.png"}
-  - {name: 国外域名, type: select, proxies: [节点选择, 全球直连], icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/global.png"}
+  - {name: 国外顶级域名, type: select, proxies: [节点选择, 香港节点, 台湾节点, 日本节点, 新加坡节点, 美国节点], icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/global.png"}
+  - {name: 国外域名, type: select, proxies: [节点选择, 香港节点, 台湾节点, 日本节点, 新加坡节点, 美国节点], icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/global.png"}
   - {name: 电报消息, type: select, proxies: [节点选择, 香港节点, 台湾节点, 日本节点, 新加坡节点, 美国节点], icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/telegram.png"}
   - {name: 私有网络, type: select, proxies: [全球直连], hidden: true, icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/private.png"}
   - {name: 漏网之鱼, type: select, proxies: [节点选择, 香港节点, 台湾节点, 日本节点, 新加坡节点, 美国节点, 全球直连], icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/match.png"}
@@ -292,7 +289,6 @@ proxy-groups:
 rules:
   - GEOSITE,private,私有网络
   - GEOSITE,ads,广告域名
-  - GEOSITE,trackerslist,Trackerslist
   - GEOSITE,microsoft-cn,微软服务
   - GEOSITE,apple-cn,苹果服务
   - GEOSITE,google-cn,谷歌服务
@@ -318,11 +314,11 @@ rules:
 ② [sing-box 内核](https://github.com/SagerNet/sing-box) rule_set 规则集文件，格式有 `.json`（`"format": "source"`）和 `.srs`（`"format": "binary"`）
 ## 2. 数据源
 ① 每天凌晨 3 点（北京时间 UTC+8）自动构建，由上游项目 [DustinWin/domain-list-custom](https://github.com/DustinWin/domain-list-custom) 和 [DustinWin/geoip](https://github.com/DustinWin/geoip) 提供数据源，可查看[域名列表](https://github.com/DustinWin/domain-list-custom/tree/domains)和 [IP 段列表](https://github.com/DustinWin/geoip/tree/ips)  
-② `rule-set,fakeip-filter,📌 fakeip 过滤` 源采用 [DustinWin/fake_ip_filter.list](https://github.com/DustinWin/ShellCrash/blob/dev/public/fake_ip_filter.list)（搭载 mihomo 内核或 sing-box PuerNya 版内核时，可使该规则集内的域名走 realip）  
+② `rule-set,fakeip-filter,📌 fakeip 过滤` 源采用 [DustinWin/fake_ip_filter.list](https://github.com/DustinWin/ShellCrash/blob/dev/public/fake_ip_filter.list)（搭载 mihomo 内核或 sing-box reF1nd 版内核时，可使该规则集内的域名走 realip）  
 ③ `rule-set,fakeip-filter-lite,📌 fakeip 过滤` 源采用 [DustinWin/fake_ip_filter.list](https://github.com/DustinWin/ShellCrash/blob/dev/public/fake_ip_filter.list)，仅保留主要域名（推荐搭配 [AdGuard Home](https://github.com/AdguardTeam/AdGuardHome) 且 DNS 配置 mix 混合模式时使用）  
 ④ `rule-set,ads,🛑 广告域名` 源采用 [privacy-protection-tools/anti-AD](https://github.com/privacy-protection-tools/anti-AD)  
 ⑤ `rule-set,private,🔒 私有网络` 源采用 [v2fly/domain-list-community/private](https://github.com/v2fly/domain-list-community/blob/master/data/private) 和 [blackmatrix7/ios_rule_script/Lan](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Clash/Lan)（仅域名）组合，并添加主流 [Dashboard 在线面板](https://github.com/DustinWin/proxy-tools/releases/tag/Dashboard)域名（`yacd.metacubex.one`、`metacubex.github.io`、`metacubexd.pages.dev`和 `board.zash.run.place`）  
-⑥ `rule-set,trackerslist,📋 Trackerslist` 源采用 [XIU2/TrackersListCollection](https://github.com/XIU2/TrackersListCollection/blob/master/all.txt)（仅域名）和 [ngosang/trackerslist](https://github.com/ngosang/trackerslist/blob/master/trackers_all.txt) 组合  
+⑥ `rule-set,trackerslist,📋 Trackerslist` 源采用 [XIU2/TrackersListCollection](https://github.com/XIU2/TrackersListCollection/blob/master/all.txt)（仅域名）和 [ngosang/trackerslist](https://github.com/ngosang/trackerslist/blob/master/trackers_all.txt) 组合（若使用该规则集，仅需使其走 realip 即可）  
 ⑦ `rule-set,applications,⬇️ 直连软件` 源采用 [blackmatrix7/ios_rule_script/Download](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Clash/Download) 和 [Loyalsoldier/clash-rules/applications.txt](https://github.com/Loyalsoldier/clash-rules/blob/release/applications.txt) 组合  
 ⑧ `rule-set,microsoft-cn,🪟 微软服务` 源采用 [v2fly/domain-list-community/microsoft@cn](https://github.com/v2fly/domain-list-community/blob/master/data/microsoft)  
 ⑨ `rule-set,apple-cn,🍎 苹果服务` 源采用 [v2fly/domain-list-community/apple@cn](https://github.com/v2fly/domain-list-community/blob/master/data/apple) 和 [felixonmars/dnsmasq-china-list/apple.china.conf](https://github.com/felixonmars/dnsmasq-china-list/blob/master/apple.china.conf) 组合  
@@ -377,11 +373,10 @@ proxy-groups:
   - {name: 📺 哔哩哔哩, type: select, proxies: [🎯 全球直连, 🚀 节点选择, 🇭🇰 香港节点, 🇹🇼 台湾节点, 🇯🇵 日本节点, 🇸🇬 新加坡节点, 🇺🇸 美国节点]}
   - {name: 🎶 Spotify, type: select, proxies: [🚀 节点选择, 🇭🇰 香港节点, 🇹🇼 台湾节点, 🇯🇵 日本节点, 🇸🇬 新加坡节点, 🇺🇸 美国节点]}
   - {name: 🌍 国外媒体, type: select, proxies: [🚀 节点选择, 🇭🇰 香港节点, 🇹🇼 台湾节点, 🇯🇵 日本节点, 🇸🇬 新加坡节点, 🇺🇸 美国节点]}
-  - {name: 📋 Trackerslist, type: select, proxies: [🎯 全球直连, 🚀 节点选择]}
   - {name: 🇨🇳 国内域名, type: select, proxies: [🎯 全球直连, 🚀 节点选择]}
   - {name: 🀄️ 国内 IP, type: select, proxies: [🎯 全球直连, 🚀 节点选择]}
-  - {name: 🌎 国外顶级域名, type: select, proxies: [🚀 节点选择, 🎯 全球直连]}
-  - {name: 🌎 国外域名, type: select, proxies: [🚀 节点选择, 🎯 全球直连]}
+  - {name: 🌎 国外顶级域名, type: select, proxies: [🚀 节点选择, 🇭🇰 香港节点, 🇹🇼 台湾节点, 🇯🇵 日本节点, 🇸🇬 新加坡节点, 🇺🇸 美国节点]}
+  - {name: 🌎 国外域名, type: select, proxies: [🚀 节点选择, 🇭🇰 香港节点, 🇹🇼 台湾节点, 🇯🇵 日本节点, 🇸🇬 新加坡节点, 🇺🇸 美国节点]}
   - {name: 📲 电报消息, type: select, proxies: [🚀 节点选择, 🇭🇰 香港节点, 🇹🇼 台湾节点, 🇯🇵 日本节点, 🇸🇬 新加坡节点, 🇺🇸 美国节点]}
   - {name: ⬇️ 直连软件, type: select, proxies: [🎯 全球直连], hidden: true}
   - {name: 🔒 私有网络, type: select, proxies: [🎯 全球直连], hidden: true}
@@ -669,7 +664,6 @@ rule-providers:
 rules:
   - RULE-SET,private,🔒 私有网络
   - RULE-SET,ads,🛑 广告域名
-  - RULE-SET,trackerslist,📋 Trackerslist
   - RULE-SET,applications,⬇️ 直连软件
   - RULE-SET,microsoft-cn,🪟 微软服务
   - RULE-SET,apple-cn,🍎 苹果服务
@@ -723,11 +717,10 @@ proxy-groups:
   - {name: 哔哩哔哩, type: select, proxies: [全球直连, 节点选择, 香港节点, 台湾节点, 日本节点, 新加坡节点, 美国节点], icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/bilibili.png"}
   - {name: Spotify, type: select, proxies: [节点选择, 香港节点, 台湾节点, 日本节点, 新加坡节点, 美国节点], icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/spotify.png"}
   - {name: 国外媒体, type: select, proxies: [节点选择, 香港节点, 台湾节点, 日本节点, 新加坡节点, 美国节点], icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/media.png"}
-  - {name: Trackerslist, type: select, proxies: [全球直连, 节点选择], icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/trackerslist.png"}
   - {name: 国内域名, type: select, proxies: [全球直连, 节点选择], icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/cn.png"}
   - {name: 国内 IP, type: select, proxies: [全球直连, 节点选择], icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/cnip.png"}
-  - {name: 国外顶级域名, type: select, proxies: [节点选择, 全球直连], icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/global.png"}
-  - {name: 国外域名, type: select, proxies: [节点选择, 全球直连], icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/global.png"}
+  - {name: 国外顶级域名, type: select, proxies: [节点选择, 香港节点, 台湾节点, 日本节点, 新加坡节点, 美国节点], icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/global.png"}
+  - {name: 国外域名, type: select, proxies: [节点选择, 香港节点, 台湾节点, 日本节点, 新加坡节点, 美国节点], icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/global.png"}
   - {name: 电报消息, type: select, proxies: [节点选择, 香港节点, 台湾节点, 日本节点, 新加坡节点, 美国节点], icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/telegram.png"}
   - {name: 直连软件, type: select, proxies: [全球直连], hidden: true, icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/applications.png"}
   - {name: 私有网络, type: select, proxies: [全球直连], hidden: true, icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/private.png"}
@@ -1015,7 +1008,6 @@ rule-providers:
 rules:
   - RULE-SET,private,私有网络
   - RULE-SET,ads,广告域名
-  - RULE-SET,trackerslist,Trackerslist
   - RULE-SET,applications,直连软件
   - RULE-SET,microsoft-cn,微软服务
   - RULE-SET,apple-cn,苹果服务
@@ -1076,11 +1068,10 @@ rules:
     { "tag": "📺 哔哩哔哩", "type": "selector", "outbounds": [ "🎯 全球直连", "🚀 节点选择", "🇭🇰 香港节点", "🇹🇼 台湾节点", "🇯🇵 日本节点", "🇸🇬 新加坡节点", "🇺🇸 美国节点" ] },
     { "tag": "🎶 Spotify", "type": "selector", "outbounds": [ "🚀 节点选择", "🇭🇰 香港节点", "🇹🇼 台湾节点", "🇯🇵 日本节点", "🇸🇬 新加坡节点", "🇺🇸 美国节点" ] },
     { "tag": "🌍 国外媒体", "type": "selector", "outbounds": [ "🚀 节点选择", "🇭🇰 香港节点", "🇹🇼 台湾节点", "🇯🇵 日本节点", "🇸🇬 新加坡节点", "🇺🇸 美国节点" ] },
-    { "tag": "📋 Trackerslist", "type": "selector", "outbounds": [ "🎯 全球直连", "🚀 节点选择" ] },
     { "tag": "🇨🇳 国内域名", "type": "selector", "outbounds": [ "🎯 全球直连", "🚀 节点选择" ] },
     { "tag": "🀄️ 国内 IP", "type": "selector", "outbounds": [ "🎯 全球直连", "🚀 节点选择" ] },
-    { "tag": "🌎 国外顶级域名", "type": "selector", "outbounds": [ "🚀 节点选择", "🎯 全球直连" ] },
-    { "tag": "🌎 国外域名", "type": "selector", "outbounds": [ "🚀 节点选择", "🎯 全球直连" ] },
+    { "tag": "🌎 国外顶级域名", "type": "selector", "outbounds": [ "🚀 节点选择", "🇭🇰 香港节点", "🇹🇼 台湾节点", "🇯🇵 日本节点", "🇸🇬 新加坡节点", "🇺🇸 美国节点" ] },
+    { "tag": "🌎 国外域名", "type": "selector", "outbounds": [ "🚀 节点选择", "🇭🇰 香港节点", "🇹🇼 台湾节点", "🇯🇵 日本节点", "🇸🇬 新加坡节点", "🇺🇸 美国节点" ] },
     { "tag": "📲 电报消息", "type": "selector", "outbounds": [ "🚀 节点选择", "🇭🇰 香港节点", "🇹🇼 台湾节点", "🇯🇵 日本节点", "🇸🇬 新加坡节点", "🇺🇸 美国节点" ] },
     { "tag": "⬇️ 直连软件", "type": "selector", "outbounds": [ "🎯 全球直连" ] },
     { "tag": "🔒 私有网络", "type": "selector", "outbounds": [ "🎯 全球直连" ] },
@@ -1101,7 +1092,6 @@ rules:
     "rules": [
       { "rule_set": [ "private" ], "outbound": "🔒 私有网络" },
       { "rule_set": [ "ads" ], "action": "reject" },
-      { "rule_set": [ "trackerslist" ], "outbound": "📋 Trackerslist" },
       { "rule_set": [ "applications" ], "outbound": "⬇️ 直连软件" },
       { "rule_set": [ "microsoft-cn" ], "outbound": "🪟 微软服务" },
       { "rule_set": [ "apple-cn" ], "outbound": "🍎 苹果服务" },
