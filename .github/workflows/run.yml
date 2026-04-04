@@ -14,21 +14,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout `reF1nd-stable`
-        uses: actions/checkout@v6
-        with:
-          repository: reF1nd/sing-box
-          ref: reF1nd-stable
-          fetch-depth: 0
-
       - name: Set variables
         run: |
           echo "update_version=$(date -d '+8 hours' +%Y-%m-%d)" >> ${GITHUB_ENV}
-          echo "singbox_core_release_version=$(git tag -l --sort=v:refname | grep -Po '^v?\K[0-9]+\.[0-9]+\.[0-9]+-reF1nd.*' | sed 's/-.*//' |tail -n1)" >> ${GITHUB_ENV}
-          echo "singbox_core_latest_version=$(curl -sSL https://raw.githubusercontent.com/reF1nd/sing-box/reF1nd-testing/docs/configuration/rule-set/source-format.md | awk '/*/ {last=$0} END {print last}' | sed -n 's/.*\([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p')" >> ${GITHUB_ENV}
-          echo "singbox_core_compatible_version=$(curl -sSL https://raw.githubusercontent.com/reF1nd/sing-box/reF1nd-testing/docs/configuration/rule-set/source-format.md | awk '/*/{lines[++count]=$0} END{print lines[count-1]}' | sed -n 's/.*\([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p')" >> ${GITHUB_ENV}
-          echo "singbox_rules_latest_version=$(curl -sSL https://raw.githubusercontent.com/reF1nd/sing-box/reF1nd-testing/docs/configuration/rule-set/source-format.md | awk '/*/ {last=$0} END {print last}' | sed -n 's/^* \([0-9]\+\):.*/\1/p')" >> ${GITHUB_ENV}
-          echo "singbox_rules_compatible_version=$(curl -sSL https://raw.githubusercontent.com/reF1nd/sing-box/reF1nd-testing/docs/configuration/rule-set/source-format.md | awk '/*/{lines[++count]=$0} END{print lines[count-1]}' | sed -n 's/^* \([0-9]\+\):.*/\1/p')" >> ${GITHUB_ENV}
+          echo "singbox_core_release_version=$(curl -sSL https://api.github.com/repos/reF1nd/sing-box/tags | jq -r '.[] | select(.name | contains("reF1nd") and (contains("alpha") | not)) | .name' | head -n 1 | awk -F'[v.-]' '{print $2"."$3".0"}')" >> ${GITHUB_ENV}
+          echo "singbox_core_latest_version=$(curl -sSL https://raw.githubusercontent.com/SagerNet/sing-box/testing/docs/configuration/rule-set/source-format.md | awk '/*/ {last=$0} END {print last}' | sed -n 's/.*\([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p')" >> ${GITHUB_ENV}
+          echo "singbox_core_compatible_version=$(curl -sSL https://raw.githubusercontent.com/SagerNet/sing-box/testing/docs/configuration/rule-set/source-format.md | awk '/*/{lines[++count]=$0} END{print lines[count-1]}' | sed -n 's/.*\([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p')" >> ${GITHUB_ENV}
+          echo "singbox_rules_latest_version=$(curl -sSL https://raw.githubusercontent.com/SagerNet/sing-box/testing/docs/configuration/rule-set/source-format.md | awk '/*/ {last=$0} END {print last}' | sed -n 's/^* \([0-9]\+\):.*/\1/p')" >> ${GITHUB_ENV}
+          echo "singbox_rules_compatible_version=$(curl -sSL https://raw.githubusercontent.com/SagerNet/sing-box/testing/docs/configuration/rule-set/source-format.md | awk '/*/{lines[++count]=$0} END{print lines[count-1]}' | sed -n 's/^* \([0-9]\+\):.*/\1/p')" >> ${GITHUB_ENV}
           echo "domains_download_url=https://github.com/DustinWin/domain-list-custom/releases/download/domains" >> ${GITHUB_ENV}
           echo "ips_download_url=https://github.com/DustinWin/geoip/releases/download/ips" >> ${GITHUB_ENV}
         shell: bash
@@ -251,8 +244,8 @@ jobs:
 
             # Generate `sing-box` rule_set
             cd ../
-            curl -L "https://github.com/DustinWin/proxy-tools/releases/download/sing-box/sing-box-ref1nd-stable-linux-amd64-v3.tar.gz" | tar -zx -C ./tools/
-            mv -f "./tools/CrashCore" ./tools/sing-box
+            curl -o ./tools/sing-box -L https://github.com/DustinWin/proxy-tools/releases/download/sing-box/sing-box-ref1nd-stable-linux-amd64-v3.upx
+            chmod +x ./tools/sing-box
             mkdir -p ./sing-box-ruleset/
             cd ./tools/
             sed -i 's/"version": ${{ env.singbox_rules_compatible_version }}/"version": ${{ env.singbox_rules_latest_version }}/' ./convert.sh
