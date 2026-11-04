@@ -97,7 +97,7 @@ jobs:
           mv -f ./mydata/cn-lite ./mydata/cn
           go run ./ --datapath=./mydata/ --outputname geosite-mini.dat
 
-      - name: Get geoip relative files
+      - name: Get geoip related files
         run: |
           mkdir -p ./mihomo-geodata/
           # Download mihomo geoip files (.mmdb)
